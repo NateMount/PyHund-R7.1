@@ -9,22 +9,23 @@ def display_help() -> None:
 
 def parse_args() -> dict:
 
+    if len(argv) < 2:
+        display_help()
+
     parsed_config = {
         "unames": [],
         "stdout": "default",
     }
-
-    if len(argv) < 2:
-        display_help():
     
     for arg in argv[1:]:
         if arg.startswith('-') or arg.startswith('/'):
             arg = arg.lstrip('-').lstrip('/')
-            match(arg.split(':')[0]):
-                case 'h' | 'help':
-                    display_help()
-                case 'stdout':
-                    parsed_config['stdout'] = arg.split(':')[1] if ':' in arg else 'default'
+
+            if arg.split(':')[0] in ('h', 'help'):
+                display_help()
+
+            if arg.split(':')[0] in parsed_config.keys() and arg.split(':')[0] != "unames":
+                parsed_config[arg.split(':')[0]] = arg.split(':')[1] if ':' in arg else None
         
         parsed_config['unames'].append(arg.strip)
 
