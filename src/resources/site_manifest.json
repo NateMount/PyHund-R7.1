@@ -9,8 +9,14 @@
         {
             "name": "Cash App",
             "url": "https://cash.app/${}",
-            "validation_method": "status",
+            "validation_method": "Status",
             "validation_key": 200
+        },
+        {
+            "name": "CodeAcademy",
+            "url": "https://www.codecademy.com/profiles/{}",
+            "validation_method": "URL",
+            "validation_key": "You+must+be+logged+in+to+access+this+page"
         }
     ]
 
