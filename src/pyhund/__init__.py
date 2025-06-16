@@ -15,3 +15,4 @@ def run():
         print("Manifest Version:\t {}".format(site_index_meta['version']))
 
     scan_object = run_scan(config=config)
+    print(scan_object)
