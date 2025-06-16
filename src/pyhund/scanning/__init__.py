@@ -1,6 +1,7 @@
 
 from json import load
 from os.path import abspath
+from pyhund.scanning.scan_operations import scan_site_verify
 
 # Load site manifest containing all sites to scan
 site_manifest = load(open(abspath(".")+"/resources/site_manifest.json", "r"))
@@ -36,7 +37,7 @@ def run_scan(config:dict) -> dict:
         # Make a new user entry in the results object
         scan_results["Results"][uname.lower()] = []
         for site in site_index:
-            result = scan_site_verify(site_index[site], uname)
+            result = scan_site_verify(site, uname)
             scan_results["Results"][uname.lower()].append(result)
     
     return scan_results
