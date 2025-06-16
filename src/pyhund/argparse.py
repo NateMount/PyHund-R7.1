@@ -67,6 +67,13 @@ def parse_args() -> dict:
     # Updating plugin config if configuration is provided
     parsed_config['plugin-config'] = {k.split('=')[0]: k.split('=')[1].split(',') for k in parsed_config['plugin-config'].split('+') if '=' in k}
 
+    # Implement Plugin Configs from static config file
+    for plugin in static_config_data['PluginConfig']:
+        if plugin not in parsed_config['plugin-config'].keys():
+            parsed_config['plugin-config'][plugin] = static_config_data['PluginConfig'][plugin]
+        else:
+            parsed_config['plugin-config'][plugin] += static_config_data['PluginConfig'][plugin]
+
     # If user has provided stdin option then read usernames from the specified file
     if 'stdin' in parsed_config.keys():
         try:
