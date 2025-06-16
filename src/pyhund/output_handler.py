@@ -7,6 +7,7 @@ def handle_scan_output(scan_object:object, config:dict) -> None:
 
     match config['stdout'].lower():
         case "json":
+            # Json Dump of Raw Scan Object
             dump(scan_object, open(out_path, 'w'))
         case "csv":
             with open(out_path, 'w') as f:
@@ -37,7 +38,7 @@ def handle_scan_output(scan_object:object, config:dict) -> None:
             print("[Meta ~]:: HITS({}), MISSES({}), UNKNOWN({}), VISITED({})\n".format(*scan_object['Meta']))
             for uname in scan_object['Results']:
                 for site in scan_object['Results'][uname]:
-                    print("Username({}), Sitename({}), URL({}), Response Code({}), Validation Status({}), Validation Method({}), Hit Status({})".format(uname, *site[0:6]))
+                    print("Username({}), Sitename({}), URL({}), Response Code({}), Validation Status({}), Validation Method({}), Target Status({})".format(uname, *site[0:6]))
 
         case "default":
             print("[PyHund:Scan ~]:: Scan Results")

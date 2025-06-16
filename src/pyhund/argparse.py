@@ -54,7 +54,7 @@ def parse_args() -> dict:
         exit(1)
 
     # If user has provided unknown stdout format then warn of improper option provided and run with stdout=default
-    if parsed_config['stdout'] not in ['default', 'json', 'txt', 'pipe', 'csv']:
+    if parsed_config['stdout'] not in ['default', 'json', 'txt', 'pipe', 'csv', '_']:
         print('[Warn ~]:: Invalid output format specified, must be one of (default, json, txt, pipe, csv)\n           Reverting to default and continuing')
         parsed_config['stdout'] = 'default'
 
