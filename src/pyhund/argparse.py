@@ -49,12 +49,14 @@ def parse_args() -> dict:
         
         parsed_config['unames'].append(arg.strip())
 
+    # If user has provided stdin option then read usernames from the specified file
     if 'stdin' in parsed_config.keys():
         try:
             with open(parsed_config['stdin'], 'r') as f:
                 for name in f.read().split('\n').split(','):
                     parsed_config['unames'].append(name.strip())
         except FileNotFoundError:
+            # Program will attempt to continue executing with usernames provided from command line arguments
             print(f"[Warn ~]:: File '{parsed_config['stdin']}' not found, please provide a valid file path, defaulting to unames from command line arguments")
 
             
