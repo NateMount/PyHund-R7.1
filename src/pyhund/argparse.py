@@ -10,6 +10,7 @@ Usage: python3 pyhund.py <username1> <username2> ... [options]
 Options (prefix with - or /):
 \th | help\t\tDisplay this help message
 \tstdout:<format>\t\tSpecify output format (default[stdout], json, txt, pipe)
+\toutput_path:<path>\tSpecify output file path (default: pyhund_scan_results.<format>)
 \tverbose\t\t\tEnable verbose output (only for stdout=default)
 \tdebug\t\t\tEnable debug output (only for stdout=default/txt)
     """
@@ -47,6 +48,16 @@ def parse_args() -> dict:
             continue
         
         parsed_config['unames'].append(arg.strip())
+
+    if 'stdin' in parsed_config.keys():
+        try:
+            with open(parsed_config['stdin'], 'r') as f:
+                for name in f.read().split('\n').split(','):
+                    parsed_config['unames'].append(name.strip())
+        except FileNotFoundError:
+            print(f"[Warn ~]:: File '{parsed_config['stdin']}' not found, please provide a valid file path, defaulting to unames from command line arguments")
+
+            
 
     # If no usernames are provided, no operations can be performed, so exit
     if len(parsed_config['unames']) == 0:
