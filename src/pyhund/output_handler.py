@@ -34,12 +34,20 @@ def handle_scan_output(scan_object:object, config:dict) -> None:
                         f.write("Sitename: {}\nURL: {}\nResponse Code: {}\nValidation Status: {}\nValidation Method: {}\nHit Status: {}\n\n".format(*result))
 
         case "pipe":
-            pass
+            print("[Meta ~]:: HITS({}), MISSES({}), UNKNOWN({}), VISITED({})\n".format(*scan_object['Meta']))
+            for uname in scan_object['Results']:
+                for site in scan_object['Results'][uname]:
+                    print("Username({}), Sitename({}), URL({}), Response Code({}), Validation Status({}), Validation Method({}), Hit Status({})".format(uname, *site[0:6]))
+
         case "default":
             print("[PyHund:Scan ~]:: Scan Results")
+
+            # Print Metadata
             print("[Meta ~]::")
             print("Total Hits: {}\tTotal Misses: {}\tTotal Unknown: {}\tTotal Visited: {}\n\n".format(*scan_object['Meta']))
-            print("[Results ~]::")
+
+            # Print Results
+            print("[Results ~]::\n")
             for uname in scan_object['Results']:
                 print(f"[{uname} ~]::")
                 [ print("Sitename: {}\nURL: {}\nResponse Code: {}\nValidation Status: {}\nValidation Method: {}\nHit Status: {}\n".format(*result)) for result in scan_object['Results'][uname]]
