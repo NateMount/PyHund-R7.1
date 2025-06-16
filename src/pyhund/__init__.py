@@ -5,6 +5,7 @@ from pyhund.output_handler import handle_scan_output
 
 def run():
     
+    # Derive configuration from command line arguments
     config = parse_args()
 
     # If verbose or debug mode active, display version and config info
@@ -15,6 +16,8 @@ def run():
             print("{:<16}:\t {}".format(k.capitalize(), v))
         print("Manifest Version:\t {}".format(site_index_meta['version']))
 
+    # Run the scan with the provided configuration
     scan_object = run_scan(config=config)
     
+    # Handle the scan output based on the configuration
     handle_scan_output(scan_object, config)
