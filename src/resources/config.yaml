@@ -1,0 +1,15 @@
+# [ PyHund Static Config ]
+
+# Any command line arguments can be set here.
+# ie. stdout, stdin, debug, verbose, output_path, etc
+BaseConfig:
+
+# Define plugin configurations prior to script execution.
+PluginConfig:
+
+  # This plugin is ignored
+  ExamplePlugin:
+    enabled: False
+    stdout: null
+    plugin_custom_config: "My Custom Option"
+
