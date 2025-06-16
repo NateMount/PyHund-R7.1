@@ -60,6 +60,7 @@ def scan_validate_response(site_data:dict, validation_method:str, validation_key
         case "URL":
             return "Valid" if validation_key in site_data['url'] else "Invalid"
         case _:
+            # TODO: Implement plugin support for custom validation methods
             return "Unknown"
 
 
@@ -71,6 +72,8 @@ def scan_site_verify(site:dict, uname:str) -> list:
     :return: Array containing all scan results in the format: [sitename, url, response_code, validation_status, validation_method, hit_status]
     :rtype: list
     """
+
+    # TODO: Add support for custom fields implemented by plugins && Implement plugin function call point to process response data
 
     # Initialize result array with site name, URL, and validation method
     result = [site['name'], site['url'].format(uname), None, None, site['validation_method'], None]

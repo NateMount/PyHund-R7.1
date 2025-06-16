@@ -1,6 +1,9 @@
 
 from sys import argv, exit
 
+# TODO: Add plugin support for custom output post-processing and handling
+STDOUT_FORMATS = ['default', 'json', 'txt', 'pipe', 'csv', '_']
+
 def display_help() -> None:
     help_text = """
 [PyHund:Help ~]::
@@ -66,7 +69,7 @@ def parse_args() -> dict:
         exit(1)
 
     # If user has provided unknown stdout format then warn of improper option provided and run with stdout=default
-    if parsed_config['stdout'] not in ['default', 'json', 'txt', 'pipe', 'csv', '_']:
+    if parsed_config['stdout'] not in STDOUT_FORMATS:
         print('[Warn ~]:: Invalid output format specified, must be one of (default, json, txt, pipe, csv)\n           Reverting to default and continuing')
         parsed_config['stdout'] = 'default'
 

@@ -16,8 +16,12 @@ def run():
             print("{:<16}:\t {}".format(k.capitalize(), v))
         print("Manifest Version:\t {}".format(site_index_meta['version']))
 
+    # TODO: Add plugin support for custom configuration handling prior to scan execution
+
     # Run the scan with the provided configuration
     scan_object = run_scan(config=config)
+
+    # TODO: Add plugin support for custom post-scan processing
     
     # Handle the scan output based on the configuration
     handle_scan_output(scan_object, config)

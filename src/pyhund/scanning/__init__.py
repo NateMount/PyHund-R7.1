@@ -63,6 +63,8 @@ def run_scan(config:dict) -> dict:
             if result[3] == "Unknown":
                 scan_results["Meta"][2] += 1
 
+            # TODO: Add plugin support for custom scan result processing and handling 
+
             # Append the result to the user's results
             scan_results["Results"][uname.lower()].append(result)
                 

@@ -53,4 +53,6 @@ def handle_scan_output(scan_object:object, config:dict) -> None:
                 print(f"[{uname} ~]::")
                 [ print("Sitename: {}\nURL: {}\nResponse Code: {}\nValidation Status: {}\nValidation Method: {}\nHit Status: {}\n".format(*result)) for result in scan_object['Results'][uname]]
         case _:
+            # TODO: Add plugin support for custom output post-processing and handling
+            print("[Error ~]:: Unsupported output format specified in config.")
             return None
