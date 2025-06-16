@@ -53,8 +53,7 @@ def parse_args() -> dict:
     if 'stdin' in parsed_config.keys():
         try:
             with open(parsed_config['stdin'], 'r') as f:
-                for name in f.read().split('\n').split(','):
-                    parsed_config['unames'].append(name.strip())
+                [ parsed_config['unames'].append(name.strip()) for name in f.read().split('\n') if name.strip() and not name.startswith('#') ]
         except FileNotFoundError:
             # Program will attempt to continue executing with usernames provided from command line arguments
             print(f"[Warn ~]:: File '{parsed_config['stdin']}' not found, please provide a valid file path, defaulting to unames from command line arguments")
