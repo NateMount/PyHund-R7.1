@@ -1,5 +1,6 @@
 
 from sys import argv, exit
+import yaml
 
 # TODO: Add plugin support for custom output post-processing and handling
 STDOUT_FORMATS = ['default', 'json', 'txt', 'pipe', 'csv', '_']
@@ -12,10 +13,12 @@ Usage: python3 pyhund.py <username1> <username2> ... [options]
 
 Options (prefix with - or /):
 \th | help\t\tDisplay this help message
+\tstdin:<path>\t\tSpecify a file containing usernames (default: None)
 \tstdout:<format>\t\tSpecify output format (default[stdout], json, txt, pipe)
 \toutput_path:<path>\tSpecify output file path (default: pyhund_scan_results.<format>)
 \tverbose\t\t\tEnable verbose output (only for stdout=default)
 \tdebug\t\t\tEnable debug output (only for stdout=default/txt)
+\tplugin-config:<config>\tSpecify plugin configuration in the format ( plugin=setting1,setting2+plugin2=setting3 )
     """
     print(help_text)
     exit(0)
@@ -34,8 +37,17 @@ def parse_args() -> dict:
         "stdout": "default",
         "verbose": False,
         "debug": False,
+        "plugin-config": ""
     }
+
+    static_config_data = yaml.safe_load(open('/home/xxi/Projects/In-Progress/Tools/PyHund-R7.1/src/resources/config.yaml', 'r'))
     
+    # If configurations were implemented in static config for the user then apply them prior to command line arguments
+    if static_config_data['BaseConfig']:
+        for key in static_config_data['BaseConfig'].keys():
+            parsed_config[key] = static_config_data['BaseConfig'][key]
+    
+    # Parsing command line arguments
     for arg in argv[1:]:
 
         # If current arg is a flag or option then process that flag/option
@@ -52,6 +64,9 @@ def parse_args() -> dict:
         
         parsed_config['unames'].append(arg.strip())
 
+    # Updating plugin config if configuration is provided
+    parsed_config['plugin-config'] = {k.split('=')[0]: k.split('=')[1].split(',') for k in parsed_config['plugin-config'].split('+') if '=' in k}
+
     # If user has provided stdin option then read usernames from the specified file
     if 'stdin' in parsed_config.keys():
         try:
@@ -60,8 +75,6 @@ def parse_args() -> dict:
         except FileNotFoundError:
             # Program will attempt to continue executing with usernames provided from command line arguments
             print(f"[Warn ~]:: File '{parsed_config['stdin']}' not found, please provide a valid file path, defaulting to unames from command line arguments")
-
-            
 
     # If no usernames are provided, no operations can be performed, so exit
     if len(parsed_config['unames']) == 0:
