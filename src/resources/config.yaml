@@ -8,8 +8,8 @@ BaseConfig:
 PluginConfig:
 
   # This plugin is ignored
-  ExamplePlugin:
-    - Disabled
-    - Key:Value
-    - Flag
+  #ExamplePlugin:
+  #  - Disabled
+  #  - Key:Value
+  #  - Flag
 

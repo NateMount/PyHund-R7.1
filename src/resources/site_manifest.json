@@ -2,7 +2,7 @@
 
     "Meta":{
         "version": "0.1 (InDev)",
-        "site_count": 2
+        "site_count": 3
     },
 
     "SiteIndex": [
@@ -17,6 +17,12 @@
             "url": "https://www.codecademy.com/profiles/{}",
             "validation_method": "URL",
             "validation_key": "You+must+be+logged+in+to+access+this+page"
+        },
+        {
+            "name": "Facebook",
+            "url": "https://www.facebook.com/{}",
+            "validation_method": "Status",
+            "validation_key": 200
         }
     ]
 
