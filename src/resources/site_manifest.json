@@ -5,6 +5,13 @@
         "site_count": 0
     },
 
-    "SiteIndex": []
+    "SiteIndex": [
+        {
+            "name": "Cash App",
+            "url": "https://cash.app/${}",
+            "validation_method": "status",
+            "validation_key": 200
+        }
+    ]
 
 }
