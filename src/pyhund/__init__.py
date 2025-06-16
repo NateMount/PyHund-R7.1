@@ -1,6 +1,7 @@
 
 from pyhund.argparse import parse_args
 from pyhund.scanning import run_scan, site_index_meta
+from pyhund.output_handler import handle_scan_output
 
 def run():
     
@@ -15,4 +16,5 @@ def run():
         print("Manifest Version:\t {}".format(site_index_meta['version']))
 
     scan_object = run_scan(config=config)
-    print(scan_object)
+    
+    handle_scan_output(scan_object, config)
