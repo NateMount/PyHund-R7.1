@@ -2,17 +2,35 @@
 from requests import get, RequestException
 
 HEADERS = {
-
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Accept-Encoding": "gzip, deflate", 
 }
 
-def scan_request(url:str) -> dict:
+def scan_request(url:str, headers:dict = HEADERS, cookies:dict = None) -> dict:
     """
     Makes a GET request to specified URL and returns all response data.
     :param url: URL to make GET request to.
+    :param headers: Headers to include in GET request.
+    :param cookies: Cookies to include in GET request.
+    :return: Dictionary containing response data including status code, content, and URL.
+    :rtype: dict
     """
 
-    data = get(url, headers=HEADERS, cookies=None)
+    try:
+        # Attempt to make GET request to specified URL with provided headers and cookies
+        data = get(url, headers=headers, cookies=cookies)
+
+    except RequestException as e:
+        # Return error and 500 status in event of a request failure
+        return {
+            "status_code": 500,
+            "content": str(e),
+            "url": url
+        }
     
+    # Return response data including status code, content, and URL
     return {
         "status_code": data.status_code,
         "content": data.text,
@@ -35,13 +53,15 @@ def scan_validate_response(site_data:dict, validation_method:str, validation_key
 
     match validation_method:
         case "RegEx":
-            pass # TODO: Implement RegEx Validation
+            # TODO: Implement RegEx Validation
+            return "Unknown"  # Placeholder for RegEx validation
         case "Status":
             return "Valid" if site_data['status_code'] == validation_key else "Invalid"
         case "URL":
             return "Valid" if validation_key in site_data['url'] else "Invalid"
         case _:
             return "Unknown"
+
 
 def scan_site_verify(site:dict, uname:str) -> list:
     """
@@ -62,6 +82,12 @@ def scan_site_verify(site:dict, uname:str) -> list:
     result[2] = site_data['status_code']
     result[5] = "Hit" if site_data['status_code'] == 200 and site_data['content'] != "" else "Miss"
 
-    result[3] = scan_validate_response(site_data, site['validation_method'], site['validation_key'])
+    # If the site data is a 500 response code, most likely there was a malformed request or the site is down
+    # In such an event we will not waste time validating the response
+    # Otherwise, validate the response based on the validation method and key
+    if site_data['status_code'] != 500:
+        result[3] = scan_validate_response(site_data, site['validation_method'], site['validation_key'])
+    else:
+        result[3] = "Unknown"
 
     return result
