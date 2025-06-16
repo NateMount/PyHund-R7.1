@@ -79,7 +79,7 @@ def scan_site_verify(site:dict, uname:str) -> list:
     result = [site['name'], site['url'].format(uname), None, None, site['validation_method'], None]
 
     # Attempt to retrieve the site data
-    site_data = scan_request(site['url'].format(uname))
+    site_data = scan_request(site['url'].format(uname), headers=site.get('headers', HEADERS), cookies=site.get('cookies', None))
 
     # Assign initial response values to the result array
     result[2] = site_data['status_code']
