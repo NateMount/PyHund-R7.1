@@ -9,7 +9,7 @@ PluginConfig:
 
   # This plugin is ignored
   ExamplePlugin:
-    enabled: False
-    stdout: null
-    plugin_custom_config: "My Custom Option"
+    - Disabled
+    - Key:Value
+    - Flag
 
