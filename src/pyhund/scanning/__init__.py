@@ -38,8 +38,16 @@ def run_scan(config:dict) -> dict:
         # Make a new user entry in the results object
         scan_results["Results"][uname.lower()] = []
 
+        # Print a message indicating the start of the scan for the current user
+        if config['verbose'] or config['debug']:
+            print(f"\n[PyHund:Scan ~]:: Scanning for user '{uname}'")
+
         # Iterate though each site in the site index and scan for the username
-        for site in site_index:
+        for i, site in enumerate(site_index):
+
+            # Print current site number being scanned if verbose or debug mode is active
+            if config['verbose'] or config['debug']:
+                print(f"[PyHund:Scan ~]({uname}):: Scanning site #({i + 1}/{site_index_meta['site_count']})\r", end="")
 
             # Increment the total visited sites count
             scan_results["Meta"][3] += 1
@@ -57,5 +65,10 @@ def run_scan(config:dict) -> dict:
 
             # Append the result to the user's results
             scan_results["Results"][uname.lower()].append(result)
+            
+            # For verbose output, print a blank char to reset carriage return
+            if config['verbose'] or config['debug']:
+                print("")
+        
     
     return scan_results
