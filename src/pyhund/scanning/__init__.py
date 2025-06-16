@@ -4,7 +4,6 @@ from os.path import abspath
 
 # Load site manifest containing all sites to scan
 site_manifest = load(open(abspath(".")+"/resources/site_manifest.json", "r"))
-print(abspath("."))
 # Unpack loaded data into usable 'SiteIndex' and 'Meta' components
 site_index = site_manifest["SiteIndex"]
 site_index_meta = site_manifest["Meta"]
@@ -36,5 +35,8 @@ def run_scan(config:dict) -> dict:
 
         # Make a new user entry in the results object
         scan_results["Results"][uname.lower()] = []
+        for site in site_index:
+            result = scan_site_verify(site_index[site], uname)
+            scan_results["Results"][uname.lower()].append(result)
     
     return scan_results
