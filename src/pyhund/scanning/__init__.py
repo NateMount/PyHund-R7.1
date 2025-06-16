@@ -36,8 +36,25 @@ def run_scan(config:dict) -> dict:
 
         # Make a new user entry in the results object
         scan_results["Results"][uname.lower()] = []
+
+        # Iterate though each site in the site index and scan for the username
         for site in site_index:
+
+            # Increment the total visited sites count
+            scan_results["Meta"][3] += 1
+
+            # Scan and parse site data then add to results for current user
             result = scan_site_verify(site, uname)
+            
+            # Increment total hits / misses / unknowns based on the result
+            if result[5] == "Hit":
+                scan_results["Meta"][0] += 1
+            elif result[5] == "Miss":
+                scan_results["Meta"][1] += 1
+            if result[3] == "Unknown":
+                scan_results["Meta"][2] += 1
+
+            # Append the result to the user's results
             scan_results["Results"][uname.lower()].append(result)
     
     return scan_results
