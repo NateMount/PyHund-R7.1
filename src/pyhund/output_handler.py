@@ -7,8 +7,10 @@ def handle_scan_output(scan_object:object, config:dict) -> None:
 
     match config['stdout'].lower():
         case "json":
+
             # Json Dump of Raw Scan Object
             dump(scan_object, open(out_path, 'w'))
+
         case "csv":
             with open(out_path, 'w') as f:
 
@@ -16,9 +18,11 @@ def handle_scan_output(scan_object:object, config:dict) -> None:
                 # Format: username, sitename, url, response_code, validation_status, validation_method, hit_status
                 f.write("username, sitename, url, response_code, validation_status, validation_method, hit_status\n")
 
-                for uname in scan_object['Results']:
-                    for result in scan_object['Results'][uname]:
-                        f.write("{}, {}, {}, {}, {}, {}, {}\n".format(uname,*result[0:6]))
+                [
+                    [ 
+                        f.write("{}, {}, {}, {}, {}, {}, {}\n".format(uname,*result[0:6])) for result in scan_object['Results'][uname] 
+                    ] for uname in scan_object['Results'] 
+                ]
         case "txt":
             with open(out_path, 'w') as f:
                 f.write("[PyHund:Scan ~]:: Scan Results\n\n")
@@ -31,14 +35,18 @@ def handle_scan_output(scan_object:object, config:dict) -> None:
                 f.write("[Results ~]:: \n")
                 for uname in scan_object['Results']:
                     f.write(f"[{uname} ~]:: \n")
-                    for result in scan_object['Results'][uname]:
-                        f.write("Sitename: {}\nURL: {}\nResponse Code: {}\nValidation Status: {}\nValidation Method: {}\nHit Status: {}\n\n".format(*result))
+                    [ 
+                        f.write("Sitename: {}\nURL: {}\nResponse Code: {}\nValidation Status: {}\nValidation Method: {}\nHit Status: {}\n\n".format(*result)) 
+                        for result in scan_object['Results'][uname] 
+                    ]
 
         case "pipe":
             print("[Meta ~]:: HITS({}), MISSES({}), UNKNOWN({}), VISITED({})\n".format(*scan_object['Meta']))
             for uname in scan_object['Results']:
-                for site in scan_object['Results'][uname]:
-                    print("Username({}), Sitename({}), URL({}), Response Code({}), Validation Status({}), Validation Method({}), Target Status({})".format(uname, *site[0:6]))
+                [ 
+                    print("Username({}), Sitename({}), URL({}), Response Code({}), Validation Status({}), Validation Method({}), Target Status({})".format(uname, *site[0:6])) 
+                    for site in scan_object['Results'][uname] 
+                ]
 
         case "default":
             print("[PyHund:Scan ~]:: Scan Results")
@@ -51,7 +59,11 @@ def handle_scan_output(scan_object:object, config:dict) -> None:
             print("[Results ~]::\n")
             for uname in scan_object['Results']:
                 print(f"[{uname} ~]::")
-                [ print("Sitename: {}\nURL: {}\nResponse Code: {}\nValidation Status: {}\nValidation Method: {}\nHit Status: {}\n".format(*result)) for result in scan_object['Results'][uname]]
+                [ 
+                    print("Sitename: {}\nURL: {}\nResponse Code: {}\nValidation Status: {}\nValidation Method: {}\nHit Status: {}\n".format(*result)) 
+                    for result in scan_object['Results'][uname]
+                ]
+
         case _:
             # TODO: Add plugin support for custom output post-processing and handling
             print("[Error ~]:: Unsupported output format specified in config.")
