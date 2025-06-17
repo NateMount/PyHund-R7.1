@@ -7,8 +7,8 @@ from pyhund.scanning.scan_operations import scan_site_verify
 site_manifest = load(open(abspath(".")+"/resources/site_manifest.json", "r"))
 
 # Unpack loaded data into usable 'SiteIndex' and 'Meta' components
-site_index = site_manifest["SiteIndex"]
-site_index_meta = site_manifest["Meta"]
+site_index:list[dict] = site_manifest["SiteIndex"]
+site_index_meta:dict = site_manifest["Meta"]
 
 def run_scan(config:dict) -> dict:
     """
@@ -49,11 +49,8 @@ def run_scan(config:dict) -> dict:
             if config['verbose']:
                 print(f"[PyHund:Scan ~]({uname}):: Scanning site #({i + 1}/{site_index_meta['site_count']})", end="\r")
 
-            # Increment the total visited sites count
-            scan_results["Meta"][3] += 1
-
             # Scan and parse site data then add to results for current user
-            result = scan_site_verify(site, uname)
+            result:list = scan_site_verify(site, uname)
             
             # Increment total hits / misses / unknowns based on the result
             if result[5] == "Hit":
@@ -62,6 +59,9 @@ def run_scan(config:dict) -> dict:
                 scan_results["Meta"][1] += 1
             if result[3] == "Unknown":
                 scan_results["Meta"][2] += 1
+
+            # Increment the total visited sites count
+            scan_results["Meta"][3] += 1
 
             # TODO: Add plugin support for custom scan result processing and handling 
 
@@ -73,5 +73,4 @@ def run_scan(config:dict) -> dict:
         if config['verbose']:
             print("")
         
-    
     return scan_results
