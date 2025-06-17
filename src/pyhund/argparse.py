@@ -1,6 +1,7 @@
 
 from sys import argv, exit
 from yaml import safe_load
+from os.path import abspath
 
 # TODO: Add plugin support for custom output post-processing and handling
 STDOUT_FORMATS:tuple[str] = ('default', 'json', 'txt', 'pipe', 'csv', '_')
@@ -43,7 +44,7 @@ def parse_args() -> dict:
     }
 
     # Load in static configuration data from config.yaml file
-    static_config_data = safe_load(open('/home/xxi/Projects/In-Progress/Tools/PyHund-R7.1/src/resources/config.yaml', 'r'))
+    static_config_data = safe_load(open(abspath(__file__).split('/pyhund')[0]+'/resources/config.yaml', 'r'))
     
     # If configurations were implemented in static config for the user then apply them prior to command line arguments
     if static_config_data['BaseConfig']:

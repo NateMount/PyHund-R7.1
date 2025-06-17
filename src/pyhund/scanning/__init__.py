@@ -4,7 +4,7 @@ from os.path import abspath
 from pyhund.scanning.scan_operations import scan_site_verify
 
 # Load site manifest containing all sites to scan
-site_manifest = load(open(abspath(".")+"/resources/site_manifest.json", "r"))
+site_manifest = load(open(abspath(__file__).split('/pyhund')[0]+"/resources/site_manifest.json", "r"))
 
 # Unpack loaded data into usable 'SiteIndex' and 'Meta' components
 site_index:list[dict] = site_manifest["SiteIndex"]
