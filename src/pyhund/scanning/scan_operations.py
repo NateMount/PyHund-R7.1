@@ -22,6 +22,13 @@ def scan_request(url:str, headers:dict = HEADERS, cookies:dict = None) -> dict:
         # Attempt to make GET request to specified URL with provided headers and cookies
         data = get(url, headers=headers, cookies=cookies)
 
+        # Return response data including status code, content, and URL
+        return {
+            "status_code": data.status_code,
+            "content": data.text,
+            "url": data.url
+        }
+
     except RequestException as e:
         # Return error and 500 status in event of a request failure
         return {
@@ -30,13 +37,7 @@ def scan_request(url:str, headers:dict = HEADERS, cookies:dict = None) -> dict:
             "url": url
         }
     
-    # Return response data including status code, content, and URL
-    return {
-        "status_code": data.status_code,
-        "content": data.text,
-        "url": data.url
-    }
-    
+
 def scan_validate_response(site_data:dict, validation_method:str, validation_key:str | int) -> str:
     """
     Validates the response page is in fact a user page and not a generic error page or redirect the is providing a 200 response.
@@ -51,13 +52,13 @@ def scan_validate_response(site_data:dict, validation_method:str, validation_key
     :rtype: str
     """
 
-    match validation_method:
-        case "RegEx":
+    match validation_method.lower():
+        case "regex":
             # TODO: Implement RegEx Validation
             return "Unknown"  # Placeholder for RegEx validation
-        case "Status":
+        case "status":
             return "Valid" if site_data['status_code'] == validation_key else "Invalid"
-        case "URL":
+        case "url":
             return "Valid" if validation_key in site_data['url'] else "Invalid"
         case _:
             # TODO: Implement plugin support for custom validation methods
@@ -75,22 +76,14 @@ def scan_site_verify(site:dict, uname:str) -> list:
 
     # TODO: Add support for custom fields implemented by plugins && Implement plugin function call point to process response data
 
-    # Initialize result array with site name, URL, and validation method
-    result = [site['name'], site['url'].format(uname), None, None, site['validation_method'], None]
-
     # Attempt to retrieve the site data
-    site_data = scan_request(site['url'].format(uname), headers=site.get('headers', HEADERS), cookies=site.get('cookies', None))
+    site_data:dict = scan_request(site['url'].format(uname), headers=site.get('headers', HEADERS), cookies=site.get('cookies', None))
 
-    # Assign initial response values to the result array
-    result[2] = site_data['status_code']
-    result[5] = "Hit" if site_data['status_code'] == 200 and site_data['content'] != "" else "Miss"
-
-    # If the site data is a 500 response code, most likely there was a malformed request or the site is down
-    # In such an event we will not waste time validating the response
-    # Otherwise, validate the response based on the validation method and key
-    if site_data['status_code'] != 500:
-        result[3] = scan_validate_response(site_data, site['validation_method'], site['validation_key'])
-    else:
-        result[3] = "Unknown"
-
-    return result
+    return [
+        site['name'],
+        site['url'].format(uname),
+        site_data['status_code'],
+        "Unknown" if site_data["status_code"] == 500 else scan_validate_response(site_data, site['validation_method'], site['validation_key']),
+        site['validation_method'],
+        "Hit" if site_data['status_code'] == 200 and site_data['content'] != "" else "Miss"
+    ]
