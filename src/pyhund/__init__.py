@@ -1,4 +1,5 @@
 
+# Imports
 from pyhund.argparse import parse_args
 from pyhund.scanning import run_scan, site_index_meta
 from pyhund.output_handler import handle_scan_output
@@ -6,20 +7,19 @@ from pyhund.output_handler import handle_scan_output
 def run():
     
     # Derive configuration from command line arguments
-    config = parse_args()
+    config:dict[str, any] = parse_args()
 
     # If verbose or debug mode active, display version and config info
     if config['verbose'] or config['debug']:
         print("\n[PyHund:Config ~]:: Configuration Data")
         print("---------------------------------------")
-        for k, v in config.items():
-            print("{:<16}:\t {}".format(k.capitalize(), v))
+        [ print("{:<16}:\t {}".format(k.capitalize(), v)) for k, v in config.items() ]
         print("Manifest Version:\t {}".format(site_index_meta['version']))
 
     # TODO: Add plugin support for custom configuration handling prior to scan execution
 
     # Run the scan with the provided configuration
-    scan_object = run_scan(config=config)
+    scan_object:dict[str, dict[str, list]] = run_scan(config=config)
 
     # TODO: Add plugin support for custom post-scan processing
     
