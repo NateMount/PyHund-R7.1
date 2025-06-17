@@ -1,9 +1,9 @@
 
 from sys import argv, exit
-import yaml
+from yaml import safe_load
 
 # TODO: Add plugin support for custom output post-processing and handling
-STDOUT_FORMATS = ['default', 'json', 'txt', 'pipe', 'csv', '_']
+STDOUT_FORMATS:tuple[str] = ('default', 'json', 'txt', 'pipe', 'csv', '_')
 
 def display_help() -> None:
     help_text = """
@@ -12,7 +12,7 @@ def display_help() -> None:
 Usage: python3 pyhund.py <username1> <username2> ... [options]
 
 Options (prefix with - or /):
-\th | help\t\tDisplay this help message
+\thelp\t\t\tDisplay this help message
 \tstdin:<path>\t\tSpecify a file containing usernames (default: None)
 \tstdout:<format>\t\tSpecify output format (default[stdout], json, txt, pipe)
 \toutput_path:<path>\tSpecify output file path (default: pyhund_scan_results.<format>)
@@ -30,8 +30,10 @@ def parse_args() -> dict:
     :rtype: dict
     """
 
+    # If not enough arguments provided then display help and exit
     if len(argv) < 2: display_help()
 
+    # Initializing parsed config file with necessary defaults
     parsed_config = {
         "unames": [],
         "stdout": "default",
@@ -40,12 +42,12 @@ def parse_args() -> dict:
         "plugin-config": ""
     }
 
-    static_config_data = yaml.safe_load(open('/home/xxi/Projects/In-Progress/Tools/PyHund-R7.1/src/resources/config.yaml', 'r'))
+    # Load in static configuration data from config.yaml file
+    static_config_data = safe_load(open('/home/xxi/Projects/In-Progress/Tools/PyHund-R7.1/src/resources/config.yaml', 'r'))
     
     # If configurations were implemented in static config for the user then apply them prior to command line arguments
     if static_config_data['BaseConfig']:
-        for key in static_config_data['BaseConfig'].keys():
-            parsed_config[key] = static_config_data['BaseConfig'][key]
+        parsed_config.update(static_config_data['BaseConfig'])
     
     # Parsing command line arguments
     for arg in argv[1:]:
@@ -55,24 +57,25 @@ def parse_args() -> dict:
             arg = arg.lstrip('-').lstrip('/')
 
             # If requesting help then display and exit
-            if arg.split(':')[0] in ('h', 'help'): display_help()
+            if arg.split(':')[0] == "help": display_help()
 
+            # Do not allow users to attempt to set unames via options, only via command line arguments
             if arg.split(':')[0] != "unames":
                 parsed_config[arg.split(':')[0]] = arg.split(':')[1] if ':' in arg else True
             
             continue
         
+        # If not an option then treat it as a username
         parsed_config['unames'].append(arg.strip())
 
     # Updating plugin config if configuration is provided
     parsed_config['plugin-config'] = {k.split('=')[0]: k.split('=')[1].split(',') for k in parsed_config['plugin-config'].split('+') if '=' in k}
 
     # Implement Plugin Configs from static config file
-    for plugin in static_config_data['PluginConfig']:
-        if plugin not in parsed_config['plugin-config'].keys():
-            parsed_config['plugin-config'][plugin] = static_config_data['PluginConfig'][plugin]
-        else:
-            parsed_config['plugin-config'][plugin] += static_config_data['PluginConfig'][plugin]
+    if static_config_data['PluginConfig'] is None:
+        static_config_data['PluginConfig'] = {}
+    else:
+        [ parsed_config['plugin-config'].update({plugin: static_config_data['PluginConfig'][plugin]}) for plugin in static_config_data['PluginConfig'] ]
 
     # If user has provided stdin option then read usernames from the specified file
     if 'stdin' in parsed_config.keys():
