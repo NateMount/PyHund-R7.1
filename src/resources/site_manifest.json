@@ -1,8 +1,8 @@
 {
 
     "Meta":{
-        "version": "0.1 (InDev)",
-        "site_count": 3
+        "version": "0.2 (InDev)",
+        "site_count": 7
     },
 
     "SiteIndex": [
@@ -21,6 +21,30 @@
         {
             "name": "Facebook",
             "url": "https://www.facebook.com/{}",
+            "validation_method": "Status",
+            "validation_key": 200
+        },
+        {
+            "name": "Fiverr",
+            "url": "https://www.fiverr.com/{}",
+            "validation_method": "Status",
+            "validation_key": 200
+        },
+        {
+            "name": "Pronouns.Page",
+            "url": "https://en.pronouns.page/@{}",
+            "validation_method": "Status",
+            "validation_key": 200
+        },
+        {
+            "name": "Instagram",
+            "url": "https://www.instagram.com/{}/",
+            "validation_method": "Status",
+            "validation_key": 200
+        },
+        {
+            "name": "LinkedIn",
+            "url": "https://www.linkedin.com/in/{}/",
             "validation_method": "Status",
             "validation_key": 200
         }
