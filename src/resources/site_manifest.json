@@ -1,8 +1,8 @@
 {
 
     "Meta":{
-        "version": "0.2 (InDev)",
-        "site_count": 33
+        "version": "0.3 (InDev)",
+        "site_count": 34
     },
 
     "SiteIndex": [
@@ -233,6 +233,13 @@
         {
             "name": "Telegram",
             "url": "https://t.me/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "Venmo",
+            "url": "https://venmo.com/u/{}",
             "validation_method": "Status",
             "validation_key": 200,
             "tags": []
