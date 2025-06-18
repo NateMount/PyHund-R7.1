@@ -1,11 +1,13 @@
 
 from requests import get, RequestException
+from re import match
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.5",
     "Accept-Encoding": "gzip, deflate", 
+    "Pragma": "no-cache"
 }
 
 def scan_request(url:str, headers:dict = HEADERS, cookies:dict = None) -> dict:
@@ -55,11 +57,16 @@ def scan_validate_response(site_data:dict, validation_method:str, validation_key
     match validation_method.lower():
         case "regex":
             # TODO: Implement RegEx Validation
-            return "Unknown"  # Placeholder for RegEx validation
+            pattern:str = validation_key.lstrip('~')
+
+            if match(pattern, site_data['content']) != None:
+                return 'Invalid' if validation_key.startswith('~') else "Valid"
+            
+            return "Valid" if validation_key.startswith('~') else "Invalid"
         case "status":
             return "Valid" if site_data['status_code'] == validation_key else "Invalid"
         case "url":
-            return "Valid" if validation_key in site_data['url'] else "Invalid"
+            return ("Valid" if validation_key not in site_data['url'] else "Invalid") if validation_key.startswith('~') else ("Valid" if validation_key in site_data['url'] else "Invalid")
         case _:
             # TODO: Implement plugin support for custom validation methods
             return "Unknown"
