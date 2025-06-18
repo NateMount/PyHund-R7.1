@@ -2,7 +2,7 @@
 
     "Meta":{
         "version": "0.2 (InDev)",
-        "site_count": 7
+        "site_count": 33
     },
 
     "SiteIndex": [
@@ -10,43 +10,232 @@
             "name": "Cash App",
             "url": "https://cash.app/${}",
             "validation_method": "Status",
-            "validation_key": 200
+            "validation_key": 200,
+            "tags": []
         },
         {
             "name": "CodeAcademy",
             "url": "https://www.codecademy.com/profiles/{}",
             "validation_method": "URL",
-            "validation_key": "You+must+be+logged+in+to+access+this+page"
+            "validation_key": "You+must+be+logged+in+to+access+this+page",
+            "tags": []
         },
         {
             "name": "Facebook",
             "url": "https://www.facebook.com/{}",
             "validation_method": "Status",
-            "validation_key": 200
+            "validation_key": 200,
+            "tags": []
         },
         {
             "name": "Fiverr",
             "url": "https://www.fiverr.com/{}",
             "validation_method": "Status",
-            "validation_key": 200
+            "validation_key": 200,
+            "tags": []
         },
         {
             "name": "Pronouns.Page",
             "url": "https://en.pronouns.page/@{}",
             "validation_method": "Status",
-            "validation_key": 200
+            "validation_key": 200,
+            "tags": []
         },
         {
             "name": "Instagram",
             "url": "https://www.instagram.com/{}/",
             "validation_method": "Status",
-            "validation_key": 200
+            "validation_key": 200,
+            "tags": []
         },
         {
             "name": "LinkedIn",
             "url": "https://www.linkedin.com/in/{}/",
             "validation_method": "Status",
-            "validation_key": 200
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "Tinder",
+            "url": "https://tinder.com/@{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "TikTok",
+            "url": "https://www.tiktok.com/@{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "Threads",
+            "url": "https://www.threads.com/@{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "TryHackMe",
+            "url": "https://tryhackme.com/p/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "Youtube",
+            "url": "https://www.youtube.com/@{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "GitHub",
+            "url": "https://github.com/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "MySpace",
+            "url": "https://myspace.com/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "Dribbble",
+            "url": "https://dribbble.com/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "SnapChat",
+            "url": "https://www.snapchat.com/add/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "X (Formally Twitter)",
+            "url": "https://x.com/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "Reddit",
+            "url": "https://www.reddit.com/user/{}/",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "GitLab",
+            "url": "https://gitlab.com/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "LinkTree",
+            "url": "https://linktr.ee/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "DotCard",
+            "url": "https://dot.cards/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "BuyMeACoffee",
+            "url": "https://buymeacoffee.com/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "Carrd",
+            "url": "https://{}.carrd.co/",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "Inked Fur",
+            "url": "https://inkedfur.com/collections/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "Deviant Art",
+            "url": "https://www.deviantart.com/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "LeetCode",
+            "url": "https://leetcode.com/u/{}/",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "Cameo",
+            "url": "https://www.cameo.com/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "Beacons.ai",
+            "url": "https://beacons.ai/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "All My Links",
+            "url": "https://allmylinks.com/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "Behance",
+            "url": "https://www.behance.net/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "Hacker Rank",
+            "url": "https://www.hackerrank.com/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "Pintrest",
+            "url": "https://www.pinterest.com/{}/",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
+        },
+        {
+            "name": "Telegram",
+            "url": "https://t.me/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "tags": []
         }
     ]
 
