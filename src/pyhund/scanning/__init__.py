@@ -24,12 +24,12 @@ def run_scan(config:dict) -> dict:
         
         # Results per username in the format as follows
         # [sitename, url, response_code, validation_status, validation_method, hit_status]
-        #     # Sitename: Display name of the visited site
-        #     # URL: URL used by the program to attempt to find the account and validate for authentication
-        #     # Response Code: HTTP response code returned by the site
-        #     # Validation Status: Status of validation on authenticity of site response (e.g., "Valid", "Invalid", "Unknown")
-        #     # Validation Method: Method used to validate the response (e.g., "RegEx", "Status", "URL")
-        #     # Hit Status: Status of the hit (e.g., "Hit", "Miss", "Unknown")
+        #      Sitename: Display name of the visited site
+        #      URL: URL used by the program to attempt to find the account and validate for authentication
+        #      Response Code: HTTP response code returned by the site
+        #      Validation Status: Status of validation on authenticity of site response (e.g., "Valid", "Invalid", "Unknown")
+        #      Validation Method: Method used to validate the response (e.g., "RegEx", "Status", "URL")
+        #      Hit Status: Status of the hit (e.g., "Hit", "Miss", "Unknown")
         "Results": {}
     }
 
@@ -56,7 +56,6 @@ def run_scan(config:dict) -> dict:
             if 'NoErr' in config.keys():
                 if result[5] == "Miss" or result[3] == "Invalid":
                     continue
-
             
             # Increment total hits / misses / unknowns based on the result
             if result[5] == "Hit":
@@ -74,7 +73,6 @@ def run_scan(config:dict) -> dict:
             # Append the result to the user's results
             scan_results["Results"][uname.lower()].append(result)
                 
-            
         # For verbose output, print a blank char to reset carriage return
         if config['verbose']:
             print("")
