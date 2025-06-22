@@ -7,7 +7,8 @@ HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.5",
     "Accept-Encoding": "gzip, deflate", 
-    "Pragma": "no-cache"
+    "Pragma": "no-cache",
+    "Referer": "https://www.google.com/"
 }
 
 def scan_request(url:str, headers:dict = HEADERS, cookies:dict = None) -> dict:
