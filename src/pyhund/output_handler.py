@@ -65,6 +65,12 @@ def handle_scan_output(scan_object:object, config:dict) -> None:
                 ]
 
         case _:
+
             # TODO: Add plugin support for custom output post-processing and handling
+            # Initial plugin concept
+            [
+                module.handle_stdout(config['stdout'].lower(), scan_object) for module in ()
+            ]
+
             print("[Error ~]:: Unsupported output format specified in config.")
             return None
