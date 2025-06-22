@@ -22,7 +22,7 @@ def run():
     # TODO: Add plugin support for custom configuration handling prior to scan execution
 
     # Test internet connection prior to execution
-    if not check_internet_conn(config=config):
+    if not check_internet_conn():
         print("[Err ~]: No internet connection found, aborting")
         exit(1)
 

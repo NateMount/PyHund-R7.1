@@ -5,15 +5,12 @@ from os.path import abspath
 
 MANIFEST_PATH:str = abspath(__file__).split('/pyhund')[0]+"/resources/site_manifest.json"
 
-def check_internet_conn(config:dict, refernce_bundle:tuple[str,int] = ('8.8.8.8',53), timeout:int = 5):
+def check_internet_conn(refernce_bundle:tuple[str,int] = ('8.8.8.8',53), timeout:int = 5):
     """
     Check Internet Connection
     Used to ensure a stable connection prior to attempting to run scans
     :param config: Configuration object
     """
-
-    if config['verbose'] == True:
-        print("[PyHund:Pre-Check ~]:: Checking Internet Connection...")
     
     try:
         create_connection(refernce_bundle, timeout=timeout)
