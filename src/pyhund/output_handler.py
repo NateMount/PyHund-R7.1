@@ -2,29 +2,24 @@
 from json import dump
 
 def handle_scan_output(scan_object:object, config:dict) -> None:
-    
-    out_path = config.get('output_path', 'pyhund_scan_results.{}'.format(config['stdout'].lower()))
 
     match config['stdout'].lower():
         case "json":
-
             # Json Dump of Raw Scan Object
-            dump(scan_object, open(out_path, 'w'))
+            dump(scan_object, open(config.get('output_path', 'pyhund_scan_results.json'), 'w'))
 
         case "csv":
-            with open(out_path, 'w') as f:
+            with open(config.get('output_path', 'pyhund_scan_results.csv'), 'w') as f:
 
                 # Writing header for CSV file
-                # Format: username, sitename, url, response_code, validation_status, validation_method, hit_status
                 f.write("username, sitename, url, response_code, validation_status, validation_method, hit_status\n")
 
-                [
-                    [ 
-                        f.write("{}, {}, {}, {}, {}, {}, {}\n".format(uname,*result[0:6])) for result in scan_object['Results'][uname] 
-                    ] for uname in scan_object['Results'] 
-                ]
+                [[ 
+                    f.write("{}, {}, {}, {}, {}, {}, {}\n".format(uname,*result[0:6])) for result in scan_object['Results'][uname] 
+                ] for uname in scan_object['Results'] ]
+
         case "txt":
-            with open(out_path, 'w') as f:
+            with open(config.get('output_path', 'pyhund_scan_results.txt'), 'w') as f:
                 f.write("[PyHund:Scan ~]:: Scan Results\n\n")
 
                 #Writing Metadata
@@ -36,7 +31,7 @@ def handle_scan_output(scan_object:object, config:dict) -> None:
                 for uname in scan_object['Results']:
                     f.write(f"[{uname} ~]:: \n")
                     [ 
-                        f.write("Sitename: {}\nURL: {}\nResponse Code: {}\nValidation Status: {}\nValidation Method: {}\nHit Status: {}\n\n".format(*result)) 
+                        f.write("Sitename: {}\nURL: {}\nResponse Code: {}\nValidation Status: {}\nValidation Method: {}\nHit Status: {}\n\n".format(*result[0:6])) 
                         for result in scan_object['Results'][uname] 
                     ]
 
@@ -60,7 +55,7 @@ def handle_scan_output(scan_object:object, config:dict) -> None:
             for uname in scan_object['Results']:
                 print(f"[{uname} ~]::")
                 [ 
-                    print("Sitename: {}\nURL: {}\nResponse Code: {}\nValidation Status: {}\nValidation Method: {}\nHit Status: {}\n".format(*result)) 
+                    print("Sitename: {}\nURL: {}\nResponse Code: {}\nValidation Status: {}\nValidation Method: {}\nHit Status: {}\n".format(*result[0:6])) 
                     for result in scan_object['Results'][uname]
                 ]
 
