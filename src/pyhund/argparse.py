@@ -3,9 +3,6 @@ from sys import argv, exit
 from yaml import safe_load
 from os.path import abspath
 
-# TODO: Add plugin support for custom output post-processing and handling
-STDOUT_FORMATS:tuple[str] = ('default', 'json', 'txt', 'pipe', 'csv', '_')
-
 def display_help() -> None:
     help_text = """
 [PyHund:Help ~]::
@@ -89,10 +86,5 @@ def parse_args() -> dict:
     if len(parsed_config['unames']) == 0:
         print("[Err ~]:: Must provide at least one username")
         exit(1)
-
-    # If user has provided unknown stdout format then warn of improper option provided and run with stdout=default
-    if parsed_config['stdout'] not in STDOUT_FORMATS:
-        print('[Warn ~]:: Invalid output format specified, must be one of (default, json, txt, pipe, csv)\n           Reverting to default and continuing')
-        parsed_config['stdout'] = 'default'
 
     return parsed_config
