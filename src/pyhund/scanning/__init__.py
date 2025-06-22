@@ -42,8 +42,8 @@ def run_scan(config:dict) -> dict:
             
             # If site tags do not match the tags provided by the user then skip
             if 'flags' in config:
-                for flag_set in config['flags'].split('|'):
-                    if not set(flag_set.split(',')).issubset(site['flags']): continue
+                if not set(config['flags'].split(',')).issubset(site['flags']): 
+                    continue
 
             # Print current site number being scanned if verbose or debug mode is active
             if config['verbose']:
