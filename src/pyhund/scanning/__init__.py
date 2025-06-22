@@ -39,7 +39,12 @@ def run_scan(config:dict) -> dict:
 
         # Iterate though each site in the site index and scan for the username
         for i, site in enumerate(site_index):
-                
+            
+            # If site tags do not match the tags provided by the user then skip
+            if 'flags' in config:
+                for flag_set in config['flags'].split('|'):
+                    if not set(flag_set.split(',')).issubset(site['flags']): continue
+
             # Print current site number being scanned if verbose or debug mode is active
             if config['verbose']:
                 print(f"[PyHund:Scan ~]({uname}):: Scanning site #({i + 1}/{site_index_meta['site_count']})", end="\r")
