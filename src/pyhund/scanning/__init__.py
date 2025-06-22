@@ -1,14 +1,6 @@
 
-from json import load
-from os.path import abspath
+from pyhund.util import load_maifest
 from pyhund.scanning.scan_operations import scan_site_verify
-
-# Load site manifest containing all sites to scan
-site_manifest = load(open(abspath(__file__).split('/pyhund')[0]+"/resources/site_manifest.json", "r"))
-
-# Unpack loaded data into usable 'SiteIndex' and 'Meta' components
-site_index:list[dict] = site_manifest["SiteIndex"]
-site_index_meta:dict = site_manifest["Meta"]
 
 def run_scan(config:dict) -> dict:
     """
@@ -18,6 +10,9 @@ def run_scan(config:dict) -> dict:
     :rtype: dict
     """
     
+    # Load specified manifest
+    site_index, site_index_meta = load_maifest()
+
     scan_results = {
         # Metadata on program run as a whole
         "Meta": [0,0,0,0], # [Total Hits, Total Misses, Total Unknown, Total Visited]
