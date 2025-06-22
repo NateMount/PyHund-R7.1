@@ -32,7 +32,7 @@ def load_maifest(config:dict) -> tuple[dict, list[dict]]:
 
     try:
         data:dict = load(open(config['manifest'],'r'))
-    except KeyError | FileNotFoundError:
+    except (KeyError, FileNotFoundError):
         data:dict = load(open(MANIFEST_PATH, 'r'))
     
     return data['SiteIndex'], data['Meta']

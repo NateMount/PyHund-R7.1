@@ -1,9 +1,9 @@
 
 # Imports
 from pyhund.argparse import parse_args
-from pyhund.scanning import run_scan, site_index_meta
+from pyhund.scanning import run_scan
 from pyhund.output_handler import handle_scan_output
-from pyhund.util import check_internet_conn
+from pyhund.util import check_internet_conn, load_maifest
 
 def run():
     
@@ -15,7 +15,7 @@ def run():
         print("\n[PyHund:Config ~]:: Configuration Data")
         print("---------------------------------------")
         [ print("{:<16}:\t {}".format(k.capitalize(), v)) for k, v in config.items() ]
-        print("Manifest Version:\t {}".format(site_index_meta['version']))
+        print("Manifest Version:\t {}".format(load_maifest(config=config)[1]['version']))
 
     # TODO: Add plugin support for custom configuration handling prior to scan execution
 

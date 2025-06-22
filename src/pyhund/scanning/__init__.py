@@ -11,7 +11,7 @@ def run_scan(config:dict) -> dict:
     """
     
     # Load specified manifest
-    site_index, site_index_meta = load_maifest()
+    site_index, site_index_meta = load_maifest(config=config)
 
     scan_results = {
         # Metadata on program run as a whole
