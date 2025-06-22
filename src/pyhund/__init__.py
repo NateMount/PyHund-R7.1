@@ -3,6 +3,7 @@
 from pyhund.argparse import parse_args
 from pyhund.scanning import run_scan, site_index_meta
 from pyhund.output_handler import handle_scan_output
+from pyhund.util import check_internet_conn
 
 def run():
     
@@ -17,6 +18,11 @@ def run():
         print("Manifest Version:\t {}".format(site_index_meta['version']))
 
     # TODO: Add plugin support for custom configuration handling prior to scan execution
+
+    # Test internet connection prior to execution
+    if not check_internet_conn(config=config):
+        print("[Err ~]: No internet connection found, aborting")
+        exit(1)
 
     # Run the scan with the provided configuration
     scan_object:dict[str, dict[str, list]] = run_scan(config=config)
