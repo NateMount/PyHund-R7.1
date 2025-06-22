@@ -58,12 +58,9 @@ def run_scan(config:dict) -> dict:
                     continue
             
             # Increment total hits / misses / unknowns based on the result
-            if result[5] == "Hit":
-                scan_results["Meta"][0] += 1
-            elif result[5] == "Miss":
-                scan_results["Meta"][1] += 1
-            if result[3] == "Unknown":
-                scan_results["Meta"][2] += 1
+            if result[5] == "Hit": scan_results["Meta"][0] += 1
+            elif result[5] == "Miss": scan_results["Meta"][1] += 1
+            if result[3] == "Unknown": scan_results["Meta"][2] += 1
 
             # Increment the total visited sites count
             scan_results["Meta"][3] += 1
@@ -74,7 +71,6 @@ def run_scan(config:dict) -> dict:
             scan_results["Results"][uname.lower()].append(result)
                 
         # For verbose output, print a blank char to reset carriage return
-        if config['verbose']:
-            print("")
+        if config['verbose']: print("")
         
     return scan_results
