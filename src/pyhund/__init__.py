@@ -1,3 +1,5 @@
+# [PyHund-R7.1:init ~]
+# Initialization file for the PyHund package.
 
 # Imports
 from pyhund.argparse import parse_args
