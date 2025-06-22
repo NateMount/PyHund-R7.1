@@ -13,6 +13,7 @@ HEADERS = {
 
 def scan_request(url:str, headers:dict = HEADERS, cookies:dict = None) -> dict:
     """
+    Scan Request
     Makes a GET request to specified URL and returns all response data.
     :param url: URL to make GET request to.
     :param headers: Headers to include in GET request.
@@ -42,6 +43,7 @@ def scan_request(url:str, headers:dict = HEADERS, cookies:dict = None) -> dict:
 
 def scan_validate_response(site_data:dict, validation_method:str, validation_key:str | int) -> str:
     """
+    Scanning Validate Response
     Validates the response page is in fact a user page and not a generic error page or redirect the is providing a 200 response.
     Some pages may return various response codes that can indicate a valid user hit even if the content is not acessable.
     :param site_data: Site data taken from initial GET request.
@@ -56,7 +58,6 @@ def scan_validate_response(site_data:dict, validation_method:str, validation_key
 
     match validation_method.lower():
         case "regex":
-            # TODO: Implement RegEx Validation
             pattern:str = validation_key.lstrip('~')
 
             if match(pattern, site_data['content']) != None:
