@@ -23,7 +23,6 @@ def scan_request(url:str, headers:dict = HEADERS, cookies:dict = None) -> dict:
     try:
         # Attempt to make GET request to specified URL with provided headers and cookies
         data = get(url, headers=headers, cookies=cookies)
-
         # Return response data including status code, content, and URL
         return {
             "status_code": data.status_code,
@@ -66,7 +65,7 @@ def scan_validate_response(site_data:dict, validation_method:str, validation_key
         case "status":
             return "Valid" if site_data['status_code'] == validation_key else "Invalid"
         case "url":
-            return ("Valid" if validation_key not in site_data['url'] else "Invalid") if validation_key.startswith('~') else ("Valid" if validation_key in site_data['url'] else "Invalid")
+            return ("Valid" if validation_key[1:] not in site_data['url'] else "Invalid") if validation_key.startswith('~') else ("Valid" if validation_key in site_data['url'] else "Invalid")
         case _:
             # TODO: Implement plugin support for custom validation methods
             return "Unknown"
