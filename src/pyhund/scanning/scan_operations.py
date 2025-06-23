@@ -8,7 +8,8 @@ HEADERS = {
     "Accept-Language": "en-US,en;q=0.5",
     "Accept-Encoding": "gzip, deflate", 
     "Pragma": "no-cache",
-    "Referer": "https://www.google.com/"
+    "Referer": "https://www.google.com/",
+    "upgrade-insecure-requests": "1"
 }
 
 def scan_request(url:str, headers:dict = HEADERS, cookies:dict = None) -> dict:
