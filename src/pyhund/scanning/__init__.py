@@ -68,9 +68,9 @@ def run_scan(config:dict, plugin_manager:object) -> dict:
             # This allows plugins to modify the scan results for the current user
             # and perform any additional processing
             # Note: The handle_scan method should return the modified scan results
-            for plugin in plugin_manager.plugins_index:
-                result = plugin.handle_scan(scan_results=result)
-                
+            for module in plugin_manager.plugins_index:
+                if 'disabled' not in module.settings:
+                    result = module.handle_scan(scan_results=result)
 
             # Append the result to the user's results
             scan_results["Results"][uname.lower()].append(result)
