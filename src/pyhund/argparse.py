@@ -3,23 +3,8 @@ from sys import argv, exit
 from yaml import safe_load
 from os.path import abspath
 
-def display_help() -> None:
-    help_text = """
-[PyHund:Help ~]::
+from pyhund.util import display_help
 
-Usage: python3 pyhund.py <username1> <username2> ... [options]
-
-Options (prefix with - or /):
-\thelp\t\t\tDisplay this help message
-\tstdin:<path>\t\tSpecify a file containing usernames (default: None)
-\tstdout:<format>\t\tSpecify output format (default[stdout], json, txt, pipe)
-\toutput_path:<path>\tSpecify output file path (default: pyhund_scan_results.<format>)
-\tverbose\t\t\tEnable verbose output (only for stdout=default)
-\tdebug\t\t\tEnable debug output (only for stdout=default/txt)
-\tplugin-config:<config>\tSpecify plugin configuration in the format ( plugin=setting1,setting2+plugin2=setting3 )
-    """
-    print(help_text)
-    exit(0)
 
 def parse_args() -> dict:
     """
@@ -80,11 +65,11 @@ def parse_args() -> dict:
                 [ parsed_config['unames'].append(name.strip()) for name in f.read().split('\n') if name.strip() and not name.startswith('#') ]
         except FileNotFoundError:
             # Program will attempt to continue executing with usernames provided from command line arguments
-            print(f"[Warn ~]:: File '{parsed_config['stdin']}' not found, please provide a valid file path, defaulting to unames from command line arguments")
+            print(f"[PyHund:Warn ~]:: File '{parsed_config['stdin']}' not found, please provide a valid file path, defaulting to unames from command line arguments")
 
     # If no usernames are provided, no operations can be performed, so exit
     if len(parsed_config['unames']) == 0:
-        print("[Err ~]:: Must provide at least one username")
+        print("[PyHund:Err ~]:: Must provide at least one username")
         exit(1)
 
     return parsed_config

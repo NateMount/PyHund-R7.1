@@ -2,6 +2,7 @@
 from socket import create_connection
 from json import load
 from os.path import abspath
+from sys import exit
 
 MANIFEST_PATH:str = abspath(__file__).split('/pyhund')[0]+"/resources/site_manifest.json"
 
@@ -33,3 +34,35 @@ def load_maifest(config:dict) -> tuple[dict, list[dict]]:
         data:dict = load(open(MANIFEST_PATH, 'r'))
     
     return data['SiteIndex'], data['Meta']
+
+def display_help() -> None:
+    """
+    Used to display the help message for the program
+    """
+    print("""
+[PyHund:Help ~]::
+
+Usage: pyhund <username1> <username2> ... [options]
+          
+Options (prefix with - or /):
+          
+    Basic Options:
+        help\t\t\tDisplay this help message
+        verbose\t\t\tEnable verbose output (Should not be used with stdout=pipe)
+        debug\t\t\tEnable debug output 
+        noerr\t\t\tDisable any responses found to be Invalid or Miss
+    
+    Input/Output Options:
+        stdin:<path>\t\tSpecify a file containing usernames (default: None)
+        stdout:<format>\t\tSpecify output format (default[stdout], json, txt, pipe)
+        output_path:<path>\tSpecify output file path (default: pyhund_scan_results.<format>)
+    
+    Runtime Options:
+        manifest:<path>\t\tSpecify a custom manifest file (default: resources/site_manifest.json)
+        flags:<flags>\t\tSpecify site flags to filter sites (e.g., "social,finance")
+    
+    Plugin Options:
+        plugin-config:<config>\tSpecify plugin configuration in the format ( plugin=setting1,setting2+plugin2=setting3 )
+
+    """)
+    exit(0)
