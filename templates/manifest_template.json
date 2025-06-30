@@ -2,8 +2,16 @@
 
     "Meta":{
         "version": "0.0 - Template",
-        "site_count": 0
+        "site_count": 1
     },
 
-    "SiteIndex": []
+    "SiteIndex": [
+        {
+            "name": "My Site",
+            "url": "https://mysite.com/users/{}",
+            "validation_method": "Status",
+            "validation_key": 200,
+            "flags": ["flag1", "flag2"]
+        }
+    ]
 }
