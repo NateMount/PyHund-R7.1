@@ -7,6 +7,7 @@ class Plugin:
     def __init__(self, plugin_name:str, config:dict):
         self.plugin_name:str = plugin_name
         self.config:dict = config
+        self.settings:dict = {}
 
     def handle_stdout(self, stdout_flag:str, scan_object:dict) -> None:
         """

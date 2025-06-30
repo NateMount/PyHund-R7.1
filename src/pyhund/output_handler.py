@@ -66,5 +66,5 @@ def handle_scan_output(scan_object:object, config:dict, plugin_manager:object = 
         case _:
 
             [
-                module.handle_stdout(config['stdout'].lower(), scan_object) for module in plugin_manager.plugins_index 
+                module.handle_stdout(config['stdout'].lower(), scan_object) for module in plugin_manager.plugins_index if 'disabled' not in module.settings
             ]

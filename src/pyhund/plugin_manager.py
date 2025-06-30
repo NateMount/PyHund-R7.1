@@ -8,6 +8,7 @@ class PluginManager:
 
         # Load plugins on initialization
         self.load_plugins()
+        self.apply_plugin_configs()
 
     def load_plugins(self) -> None:
         """
@@ -25,6 +26,16 @@ class PluginManager:
             if ( module := self._load_plugin(plugin)) is not None:
                 self.plugins_index.append(module(config=self.config))
 
+    def apply_plugin_configs(self) -> None:
+        for plugin_config in self.config['plugin-config']:
+            # Attempt to find the plugin by name
+            plugin = next((p for p in self.plugins_index if p.plugin_name.lower() == plugin_config.lower()), None)
+
+            # If the plugin is found, apply the configuration
+            if plugin:
+                plugin.settings = self.config['plugin-config'][plugin_config]
+            else:
+                self._error(f"Plugin '{plugin_config}' not found, cannot apply configuration.")
 
     def _load_plugin(self, plugin_name:str) -> Plugin:
         """
