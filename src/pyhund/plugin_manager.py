@@ -11,7 +11,7 @@ class PluginManager:
 
     def load_plugins(self) -> None:
         """
-        Load Pluginds
+        Load Plugins
         This function locates and loads all plugins from the 'src/plugins' directory.
         """
 
@@ -25,6 +25,7 @@ class PluginManager:
             if ( module := self._load_plugin(plugin)) is not None:
                 self.plugins_index.append(module())
 
+
     def _load_plugin(self, plugin_name:str) -> Plugin:
         """
         Load Plugin <Private>
@@ -36,8 +37,7 @@ class PluginManager:
         try:
 
             # If debugging or verbose mode is enabled, print the plugin being loaded
-            if self.config['debug'] or self.config['verbose']:
-                print(f"[PyHund:PluginManager ~]:: Loading plugin {plugin_name[:-3]}...")
+            self._log(f"Loading plugin {plugin_name[:-3]}...")
 
             # Attempt to get the plugin class "<Plugin_Name>Plugin" from module "<Plugin_Name>"
             return getattr(
@@ -51,11 +51,14 @@ class PluginManager:
         # If module cannot be imported, catch the ImportError
         # Report the error if debugging or verbose mode is enabled
         except ImportError as e:
-            if self.config['debug'] or self.config['verbose']:
-                print(f"[PyHund:PluginManager:Err ~]:: Failed to load plugin {plugin_name[:-3]}: {e}")
 
+            self._error(f"Failed to import plugin {plugin_name[:-3]}: {e}")
             return None
         
-
-        
-                
+    def _log(self, message:str) -> None:
+        if self.config['debug'] or self.config['verbose']:
+            print(f"[PyHund:PluginManager ~]:: {message}")
+    
+    def _error(self, message:str) -> None:
+        if self.config['debug'] or self.config['verbose']:
+            print(f"[PyHund:PluginManager:Err ~]:: {message}")
