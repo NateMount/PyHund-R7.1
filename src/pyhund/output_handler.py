@@ -1,7 +1,7 @@
 
 from json import dump
 
-def handle_scan_output(scan_object:object, config:dict) -> None:
+def handle_scan_output(scan_object:object, config:dict, plugin_manager:object = None) -> None:
 
     match config['stdout'].lower():
         case "json":
@@ -63,9 +63,10 @@ def handle_scan_output(scan_object:object, config:dict) -> None:
 
             # TODO: Add plugin support for custom output post-processing and handling
             # Initial plugin concept
+
             [
-                module.handle_stdout(config['stdout'].lower(), scan_object) for module in ()
+                module.handle_stdout(config['stdout'].lower(), scan_object) for module in plugin_manager.plugins_index 
             ]
 
-            print("[Error ~]:: Unsupported output format specified in config.")
+            # print("[Error ~]:: Unsupported output format specified in config.")
             return None
