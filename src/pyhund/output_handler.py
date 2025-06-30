@@ -17,7 +17,7 @@ def handle_scan_output(scan_object:object, config:dict, plugin_manager:object = 
                 # Writing Results
                 # Replace commas in the results with '&' to avoid CSV issues
                 [[
-                        f.write(uname + ",".join([ 
+                        f.write(f"{uname}, " + ", ".join([ 
                             x.replace(',', ' &') for x in map(str, result)
                         ]) + "\n") for result in scan_object['Results'][uname]
                 ] for uname in scan_object['Results'] ]
