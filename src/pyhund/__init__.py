@@ -4,6 +4,7 @@
 # Imports
 from pyhund.argparse import parse_args
 from pyhund.scanning import run_scan
+from pyhund.plugin_manager import PluginManager
 from pyhund.output_handler import handle_scan_output
 from pyhund.util import check_internet_conn, load_maifest
 
@@ -19,7 +20,7 @@ def run():
         [ print("{:<16}:\t {}".format(k.capitalize(), v)) for k, v in config.items() ]
         print("Manifest Version:\t {}".format(load_maifest(config=config)[1]['version']))
 
-    # TODO: Add plugin support for custom configuration handling prior to scan execution
+    plugin_manager = PluginManager(config=config)
 
     # Test internet connection prior to execution
     if not check_internet_conn():
@@ -32,4 +33,4 @@ def run():
     # TODO: Add plugin support for custom post-scan processing
     
     # Handle the scan output based on the configuration
-    handle_scan_output(scan_object, config)
+    handle_scan_output(scan_object, config, plugin_manager)
