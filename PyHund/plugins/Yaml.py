@@ -40,4 +40,8 @@ class YamlPlugin(Plugin):
             }
         }
 
-        yaml_dump(result_object, open(self.config.get('output_path', 'pyhund_scan_results.yaml'), 'w'), default_flow_style=False)
+        try:
+            yaml_dump(result_object, open(self.config.get('output_path', 'pyhund_scan_results.yaml'), 'w'), default_flow_style=False)
+
+        except IOError as e:
+            self._error(f"Failed to write YAML output: {e}")
