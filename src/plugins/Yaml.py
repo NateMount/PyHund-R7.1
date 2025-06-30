@@ -19,5 +19,25 @@ class YamlPlugin(Plugin):
         if stdout_flag.lower() != "yaml":
             return None
         
-        yaml_dump(scan_object, open(self.config.get('output_path', 'pyhund_scan_results.yaml'), 'w'), default_flow_style=False)
-        
+        result_object = {
+            "Meta": {
+                "Total Hits": scan_object['Meta'][0],
+                "Total Misses": scan_object['Meta'][1],
+                "Total Unknown": scan_object['Meta'][2],
+                "Total Visited": scan_object['Meta'][3]
+            },
+            "Results": {
+                uname: [
+                    {
+                        "Sitename": result[0],
+                        "URL": result[1],
+                        "Response Code": result[2],
+                        "Validation Status": result[3],
+                        "Validation Method": result[4],
+                        "Hit Status": result[5]
+                    } for result in scan_object['Results'][uname]
+                ] for uname in scan_object['Results']
+            }
+        }
+
+        yaml_dump(result_object, open(self.config.get('output_path', 'pyhund_scan_results.yaml'), 'w'), default_flow_style=False)
