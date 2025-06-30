@@ -52,8 +52,8 @@ def run_scan(config:dict, plugin_manager:object) -> dict:
             # Scan and parse site data then add to results for current user
             result:list = scan_site_verify(site, uname)
 
-            # If NoErr flag set then ignore any erronious responses
-            if 'NoErr' in config.keys() and (result[5] == "Miss" or result[3] == "Invalid"):
+            # If noerr flag set then ignore any erronious responses
+            if 'noerr' in config.keys() and (result[5] == "Miss" or result[3] == "Invalid"):
                     continue
             
             # Increment total hits / misses / unknowns based on the result
