@@ -14,8 +14,12 @@ def handle_scan_output(scan_object:object, config:dict, plugin_manager:object = 
                 # Writing header for CSV file
                 f.write("username, sitename, url, response_code, validation_status, validation_method, hit_status\n")
 
-                [[ 
-                    f.write("{}, {}, {}, {}, {}, {}, {}\n".format(uname,*result[0:6])) for result in scan_object['Results'][uname] 
+                # Writing Results
+                # Replace commas in the results with '&' to avoid CSV issues
+                [[
+                        f.write(uname + ",".join([ 
+                            x.replace(',', ' &') for x in map(str, result)
+                        ]) + "\n") for result in scan_object['Results'][uname]
                 ] for uname in scan_object['Results'] ]
 
         case "txt":
@@ -61,12 +65,6 @@ def handle_scan_output(scan_object:object, config:dict, plugin_manager:object = 
 
         case _:
 
-            # TODO: Add plugin support for custom output post-processing and handling
-            # Initial plugin concept
-
             [
                 module.handle_stdout(config['stdout'].lower(), scan_object) for module in plugin_manager.plugins_index 
             ]
-
-            # print("[Error ~]:: Unsupported output format specified in config.")
-            return None
