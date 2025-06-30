@@ -11,7 +11,8 @@ def run_scan(config:dict, plugin_manager:object) -> dict:
     """
     
     # Load specified manifest
-    site_index, site_index_meta = load_maifest(config=config)
+    # Site_index, Site_Metadata
+    site_index, _ = load_maifest(config=config)
 
     scan_results = {
         # Metadata on program run as a whole
@@ -38,7 +39,7 @@ def run_scan(config:dict, plugin_manager:object) -> dict:
             print(f"\n[PyHund:Scan ~]:: Scanning for user '{uname}'")
 
         # Iterate though each site in the site index and scan for the username
-        for i, site in enumerate(site_index):
+        for site in site_index:
             
             # If site tags do not match the tags provided by the user then skip
             if 'flags' in config:
@@ -47,7 +48,7 @@ def run_scan(config:dict, plugin_manager:object) -> dict:
 
             # Print current site number being scanned if verbose or debug mode is active
             if config['verbose']:
-                print(f"[PyHund:Scan ~]({uname}):: Scanning site #({i + 1}/{site_index_meta['site_count']})", end="\r")
+                print(f"[PyHund:Scan ~]({uname}):: Scanning site #({site['name']})", end="\r")
 
             # Scan and parse site data then add to results for current user
             result:list = scan_site_verify(site, uname)

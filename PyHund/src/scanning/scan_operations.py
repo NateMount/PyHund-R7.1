@@ -70,7 +70,6 @@ def scan_validate_response(site_data:dict, validation_method:str, validation_key
         case "url":
             return ("Valid" if validation_key[1:] not in site_data['url'] else "Invalid") if validation_key.startswith('~') else ("Valid" if validation_key in site_data['url'] else "Invalid")
         case _:
-            # TODO: Implement plugin support for custom validation methods
             return "Unknown"
 
 
