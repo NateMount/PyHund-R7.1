@@ -23,8 +23,8 @@
         {
             "name": "Facebook",
             "url": "https://www.facebook.com/{}",
-            "validation_method": "Match",
-            "validation_key": "",
+            "validation_method": "RegEx",
+            "validation_key": "~This content isn't available right now",
             "flags": ["social-media"]
         },
         {
@@ -44,7 +44,7 @@
         {
             "name": "Instagram",
             "url": "https://www.instagram.com/{}/",
-            "validation_method": "Match",
+            "validation_method": "RegEx",
             "validation_key": "",
             "flags": ["social-media"]
         },
@@ -58,14 +58,14 @@
         {
             "name": "Tinder",
             "url": "https://tinder.com/@{}",
-            "validation_method": "Match",
+            "validation_method": "RegEx",
             "validation_key": "",
             "flags": ["dating"]
         },
         {
             "name": "TikTok",
             "url": "https://www.tiktok.com/@{}",
-            "validation_method": "Match",
+            "validation_method": "RegEx",
             "validation_key": "",
             "flags": ["social-media"]
         },
@@ -79,7 +79,7 @@
         {
             "name": "TryHackMe",
             "url": "https://tryhackme.com/p/{}",
-            "validation_method": "Match",
+            "validation_method": "RegEx",
             "validation_key": "",
             "flags": ["code", "education", "professional"]
         },
@@ -128,7 +128,7 @@
         {
             "name": "Reddit",
             "url": "https://www.reddit.com/user/{}/",
-            "validation_method": "Match",
+            "validation_method": "RegEx",
             "validation_key": "",
             "flags": ["forum", "social-media"]
         },
@@ -149,7 +149,7 @@
         {
             "name": "DotCard",
             "url": "https://dot.cards/{}",
-            "validation_method": "Match",
+            "validation_method": "RegEx",
             "validation_key": "",
             "flags": ["professional"]
         },
@@ -219,14 +219,14 @@
         {
             "name": "Hacker Rank",
             "url": "https://www.hackerrank.com/{}",
-            "validation_method": "Match",
+            "validation_method": "RegEx",
             "validation_key": "",
             "flags": ["code", "education", "professional"]
         },
         {
             "name": "Pintrest",
             "url": "https://www.pinterest.com/{}/",
-            "validation_method": "Match",
+            "validation_method": "RegEx",
             "validation_key": "",
             "flags": ["art", "social-media"]
         },
