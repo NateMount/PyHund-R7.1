@@ -51,12 +51,12 @@ def parse_args() -> dict:
         # If not an option then treat it as a username
         parsed_config['unames'].append(arg.strip())
 
-    # Updating plugin config if configuration is provided
-    parsed_config['plugin-config'] = {k.split('=')[0]: k.split('=')[1].split(',') for k in parsed_config['plugin-config'].split('+') if '=' in k}
-
     # Implement Plugin Configs from static config file
     if static_config_data['PluginConfig']:
         [ parsed_config['plugin-config'].update({plugin: static_config_data['PluginConfig'][plugin]}) for plugin in static_config_data['PluginConfig'] ]
+
+    # Updating plugin config if configuration is provided
+    parsed_config['plugin-config'] = {k.split('=')[0]: k.split('=')[1].split(',') for k in parsed_config['plugin-config'].split('+') if '=' in k}
 
     # If user has provided stdin option then read usernames from the specified file
     if 'stdin' in parsed_config.keys():
