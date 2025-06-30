@@ -83,8 +83,6 @@ def scan_site_verify(site:dict, uname:str) -> list:
     :rtype: list
     """
 
-    # TODO: Add support for custom fields implemented by plugins && Implement plugin function call point to process response data
-
     # Attempt to retrieve the site data
     site_data:dict = scan_request(site['url'].format(uname), headers=site.get('headers', HEADERS), cookies=site.get('cookies', None))
 

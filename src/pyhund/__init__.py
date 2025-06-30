@@ -28,7 +28,7 @@ def run():
         exit(1)
 
     # Run the scan with the provided configuration
-    scan_object:dict[str, dict[str, list]] = run_scan(config=config)
+    scan_object:dict[str, dict[str, list]] = run_scan(config=config, plugin_manager=plugin_manager)
 
     # Iterate through the plugins and call their post_scan method if it exists
     # This allows plugins to modify the scan object after the scan has completed
