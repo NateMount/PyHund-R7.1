@@ -2,7 +2,7 @@
 from pyhund.util import load_maifest
 from pyhund.scanning.scan_operations import scan_site_verify
 
-def run_scan(config:dict) -> dict:
+def run_scan(config:dict, plugin_manager:object) -> dict:
     """
     Initializes mass scan and returns a scan result object contaning metadata and results.
     :param config: Configuration hash map containing all passed in scanning parameters.
@@ -53,8 +53,7 @@ def run_scan(config:dict) -> dict:
             result:list = scan_site_verify(site, uname)
 
             # If NoErr flag set then ignore any erronious responses
-            if 'NoErr' in config.keys():
-                if result[5] == "Miss" or result[3] == "Invalid":
+            if 'NoErr' in config.keys() and (result[5] == "Miss" or result[3] == "Invalid"):
                     continue
             
             # Increment total hits / misses / unknowns based on the result
@@ -65,7 +64,13 @@ def run_scan(config:dict) -> dict:
             # Increment the total visited sites count
             scan_results["Meta"][3] += 1
 
-            # TODO: Add plugin support for custom scan result processing and handling 
+            # Iterate through each plugin and call its handle_scan method
+            # This allows plugins to modify the scan results for the current user
+            # and perform any additional processing
+            # Note: The handle_scan method should return the modified scan results
+            for plugin in plugin_manager.plugins_index:
+                result = plugin.handle_scan(scan_results=result, config=config)
+                
 
             # Append the result to the user's results
             scan_results["Results"][uname.lower()].append(result)
