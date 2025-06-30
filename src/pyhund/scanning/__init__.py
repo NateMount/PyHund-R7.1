@@ -69,7 +69,7 @@ def run_scan(config:dict, plugin_manager:object) -> dict:
             # and perform any additional processing
             # Note: The handle_scan method should return the modified scan results
             for plugin in plugin_manager.plugins_index:
-                result = plugin.handle_scan(scan_results=result, config=config)
+                result = plugin.handle_scan(scan_results=result)
                 
 
             # Append the result to the user's results

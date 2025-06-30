@@ -4,8 +4,9 @@
 
 class Plugin:
 
-    def __init__(self, plugin_name:str):
+    def __init__(self, plugin_name:str, config:dict):
         self.plugin_name:str = plugin_name
+        self.config:dict = config
 
     def handle_stdout(self, stdout_flag:str, scan_object:dict) -> None:
         """
@@ -18,6 +19,28 @@ class Plugin:
         :return: None, this should not return any data
         """
         return None
+    
+    def post_scan(self, scan_object:dict) -> None:
+        """
+        Post Scan
+        This method is called after the scan has completed. It can be used to perform any post-scan processing.
+        :param scan_object: Dictionary containing the results of the scan
+        :param config: Configuration dictionary passed to the plugin manager
+        :return: scan_object: The scan object after any modifications made by the plugin
+                 If no modifications are made, the original scan_object is returned
+        """
+        return scan_object
+    
+    def  handle_scan(self, scan_results:dict) -> dict:
+        """
+        Handle Scan
+        This method is called during the scan process. It can be used to perform any scan result processing.
+        :param scan_object: Dictionary containing the results of the scan
+        :param config: Configuration dictionary passed to the plugin manager
+        :return: scan_object: The scan object after any modifications made by the plugin
+                 If no modifications are made, the original scan_object is returned
+        """
+        return scan_results
     
     def __repr__(self) -> str:
         return f"{self.plugin_name}"

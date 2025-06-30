@@ -34,7 +34,6 @@ def run():
     # This allows plugins to modify the scan object after the scan has completed
     # and before the output is handled
     for plugin in plugin_manager.plugins_index:
-        scan_object = plugin.post_scan(scan_object=scan_object, config=config)
-    
+        scan_object = plugin.post_scan(scan_object=scan_object)
     # Handle the scan output based on the configuration
     handle_scan_output(scan_object, config, plugin_manager)

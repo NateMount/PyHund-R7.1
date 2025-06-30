@@ -23,7 +23,7 @@ class PluginManager:
                 continue
 
             if ( module := self._load_plugin(plugin)) is not None:
-                self.plugins_index.append(module())
+                self.plugins_index.append(module(config=self.config))
 
 
     def _load_plugin(self, plugin_name:str) -> Plugin:
