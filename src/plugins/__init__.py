@@ -31,7 +31,7 @@ class Plugin:
         """
         return scan_object
     
-    def  handle_scan(self, scan_results:dict) -> dict:
+    def  handle_scan(self, scan_results:list) -> dict:
         """
         Handle Scan
         This method is called during the scan process. It can be used to perform any scan result processing.
