@@ -34,6 +34,7 @@ class PluginManager:
             # If the plugin is found, apply the configuration
             if plugin:
                 plugin.settings = self.config['plugin-config'][plugin_config]
+                if self.config['debug']: plugin.settings.append('debug')
             else:
                 self._error(f"Plugin '{plugin_config}' not found, cannot apply configuration.")
 
