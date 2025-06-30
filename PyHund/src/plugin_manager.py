@@ -29,11 +29,11 @@ class PluginManager:
 
     def apply_plugin_configs(self) -> None:
         for plugin_config in self.config['plugin-config']:
-            # Attempt to find the plugin by name
-            plugin = next((p for p in self.plugins_index if p.plugin_name.lower() == plugin_config.lower()), None)
 
             # If the plugin is found, apply the configuration
-            if plugin:
+            if ( plugin := next(
+                (p for p in self.plugins_index if p.plugin_name.lower() == plugin_config.lower()), None
+            )) is not None:
                 plugin.settings = self.config['plugin-config'][plugin_config]
                 if self.config['debug']: plugin.settings.append('debug')
             else:
@@ -57,8 +57,7 @@ class PluginManager:
                     getattr(__import__(
                         "plugins.{}".format(plugin_name[:-3])), 
                         plugin_name[:-3]
-                    ), 
-                    plugin_name[:-3] + "Plugin"
+                    ), plugin_name[:-3] + "Plugin"
                 )
         
         # If module cannot be imported, catch the ImportError
