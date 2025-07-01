@@ -6,6 +6,13 @@ from sys import exit
 
 MANIFEST_PATH:str = abspath(__file__).split('/src')[0]+"/resources/site_manifest.json"
 
+# Version data: ('Version Number', 'Release Date')
+# Revision: 7 is static and will not change
+VERSION = ('1.0', '2025-7')
+
+def get_version() -> str:
+    return "[PyHund:Version ~]:: \nRevision: 7\nVersion:  {}\nRelease:  {}\nAuthors:  Nate Mount\n".format(*VERSION)
+
 def check_internet_conn(refernce_bundle:tuple[str,int] = ('8.8.8.8',53), timeout:int = 5):
     """
     Check Internet Connection

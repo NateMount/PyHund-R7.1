@@ -3,7 +3,7 @@ from sys import argv, exit
 from yaml import safe_load
 from os.path import abspath
 
-from src.util import display_help
+from src.util import display_help, get_version
 
 
 def parse_args() -> dict:
@@ -41,6 +41,10 @@ def parse_args() -> dict:
 
             # If requesting help then display and exit
             if arg.split(':')[0] == "help": display_help()
+
+            if arg.split(':')[0] == "version":
+                print(get_version())
+                exit(0)
 
             # Do not allow users to attempt to set unames via options, only via command line arguments
             if arg.split(':')[0] != "unames":
