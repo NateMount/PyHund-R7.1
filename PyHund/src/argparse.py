@@ -1,13 +1,17 @@
+# [PyHund/ArgParse ~]
+# Argument parser for PyHund
 
+# === Imports
 from sys import argv, exit
 from yaml import safe_load
 from os.path import abspath
 
 from src.util import display_help, get_version
 
-
+# === Functions
 def parse_args() -> dict:
     """
+    Parse Args
     Parse provided command line arguments into a configuration hash map
     :return: Hash map containing all parsed configuration options
     :rtype: dict
@@ -48,7 +52,7 @@ def parse_args() -> dict:
 
             # Do not allow users to attempt to set unames via options, only via command line arguments
             if arg.split(':')[0] != "unames":
-                parsed_config[arg.split(':')[0]] = arg.split(':')[1] if ':' in arg else True
+                parsed_config[arg.split(':')[0]] = arg.split(':')[1:] if ':' in arg else True
             
             continue
         
