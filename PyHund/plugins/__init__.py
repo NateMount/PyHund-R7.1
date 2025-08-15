@@ -21,7 +21,7 @@ class Plugin:
         """
         return None
     
-    def post_scan(self, scan_object:dict) -> None:
+    def post_scan(self, scan_object:dict) -> dict:
         """
         Post Scan
         This method is called after the scan has completed. It can be used to perform any post-scan processing.
@@ -32,7 +32,7 @@ class Plugin:
         """
         return scan_object
     
-    def  handle_scan(self, scan_results:list) -> dict:
+    def  handle_scan(self, scan_results:list) -> list:
         """
         Handle Scan
         This method is called during the scan process. It can be used to perform any scan result processing.
