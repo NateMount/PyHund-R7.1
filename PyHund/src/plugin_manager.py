@@ -1,6 +1,11 @@
+# [PyHund/PluginManager ~]
+# Manager/handler for all PyHund plugins, enabling plugin support for the application
+
+# === Imports
 from os import listdir, path
 from plugins import Plugin
 
+# === Plugin Manager Class
 class PluginManager:
 
     def __init__(self, config:dict):
@@ -24,10 +29,16 @@ class PluginManager:
             if not plugin.endswith('.py') or plugin.startswith('__'):
                 continue
 
+            # If this module can be loaded then load it and build the new plugin
             if ( module := self._load_plugin(plugin)) is not None:
-                self.plugins_index.append(module(config=self.config))
+                self.plugins_index.append(module(config=self.config)) # type: ignore
 
     def apply_plugin_configs(self) -> None:
+        """
+        Apply Plugin Configurations
+        Iterates through all loaded plugin modules and applies any necessary configurations
+        """
+
         for plugin_config in self.config['plugin-config']:
 
             # If the plugin is found, apply the configuration
@@ -35,16 +46,17 @@ class PluginManager:
                 (p for p in self.plugins_index if p.plugin_name.lower() == plugin_config.lower()), None
             )) is not None:
                 plugin.settings = self.config['plugin-config'][plugin_config]
-                if self.config['debug']: plugin.settings.append('debug')
+                if self.config['debug']: plugin.settings['debug'] = True
             else:
                 self._error(f"Plugin '{plugin_config}' not found, cannot apply configuration.")
 
-    def _load_plugin(self, plugin_name:str) -> Plugin:
+    def _load_plugin(self, plugin_name:str) -> Plugin | None:
         """
         Load Plugin <Private>
         This function attempts to import a single plugin based on its name ( case sensitive ).
         :param plugin_name: The name of the plugin to load, must be a valid Python file in the plugins directory.
         :return: An instance of the plugin class if successful, None otherwise.
+        :rtype: Plugin
         """
 
         try:
@@ -68,9 +80,21 @@ class PluginManager:
             return None
         
     def _log(self, message:str) -> None:
+        """
+        Log <Private>
+        Used to display a message to stdout only if 'verbose' mode is active
+        :param message: Message to be displayed
+        """
+
         if self.config['debug'] or self.config['verbose']:
             print(f"[PyHund:PluginManager ~]:: {message}")
     
     def _error(self, message:str) -> None:
+        """
+        Error <Private>
+        Used to display a message to stdout with error only if 'verbose' mode is active
+        :param message: Message to be displayed
+        """
+
         if self.config['debug'] or self.config['verbose']:
             print(f"[PyHund:PluginManager:Err ~]:: {message}")
