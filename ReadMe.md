@@ -3,7 +3,7 @@
 **Version**: R7.1 (v1.0 Alpha)  
 **Author**: MountNate
 
-## 📚 Table of Contents
+## Table of Contents
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
 3. [Advanced Usage](#basic-usage)
@@ -12,7 +12,7 @@
 
 ---
 
-## 🐾 Overview
+## Overview
 
 **PyHund** is a modular, Python-based web scraper designed with simplicity and flexibility in mind. Its core function is to search for given usernames across a range of common websites and report where they're found.
 
@@ -23,7 +23,7 @@ Revision 7.1 (R7.1) takes a streamlined approach: it includes only the essential
 ---
  
 
-## 🚀 Getting Started
+## Getting Started
 
 To run a basic search:
 
@@ -41,14 +41,14 @@ By default, PyHund works straight out of the box—no setup or prior knowledge r
 
 ---
 
-## ⚙️ Advanced Usage
+## Advanced Usage
 
 For users who want more control, PyHund includes powerful arguments and configuration options. These features allow you to fine-tune behavior for custom use cases.
 
 - Learn more in the **[Arguments](#arguments)** section.  
 - Dive into deeper customization with the **[Config.yaml](#configyaml)** section.
 
-## 🧩 Arguments
+## Arguments
 
 PyHund supports a range of optional arguments to customize and enhance your search. Arguments may be prefixed by wither a '-' or '/'. All arguments that do not begin with either of these delimeters will be considered usernames and will be searched for in the scan.
 
@@ -74,7 +74,7 @@ pyhund <usernames> /<arg>:<value>
 
 ---
 
-## ⚙️ Config.yaml
+## Config.yaml
 
 For persistent settings and more complex configurations, PyHund supports a `config.yaml` file in the `/usr/local/bin/PyHund/resources` directory.
 
