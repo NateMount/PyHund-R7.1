@@ -52,7 +52,7 @@ def parse_args() -> dict:
 
             # Do not allow users to attempt to set unames via options, only via command line arguments
             if arg.split(':')[0] != "unames":
-                parsed_config[arg.split(':')[0]] = arg.split(':')[1:] if ':' in arg else True
+                parsed_config[arg.split(':')[0]] = ":".join(arg.split(':')[1:]) if ':' in arg else True
             
             continue
         

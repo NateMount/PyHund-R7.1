@@ -54,7 +54,7 @@ def run_scan(config:dict, plugin_manager:object) -> dict:
 
             # Print current site number being scanned if verbose or debug mode is active
             if config['verbose']:
-                print(f"[PyHund:Scan ~]({uname}):: Scanning site @({site['name']})", end="\r")
+                print(f"[PyHund:Scan ~]({uname}):: Scanning site @[{site['name']}]                       ", end="\r")
 
             # Scan and parse site data then add to results for current user
             result:list = scan_site_verify(site, uname)
