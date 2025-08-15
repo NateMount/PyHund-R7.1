@@ -1,11 +1,17 @@
+# [PyHund/Scanning:init ~]
+# Initialization for scanning module
 
+# === Imports
 from src.util import load_maifest
 from src.scanning.scan_operations import scan_site_verify
 
+# === Functions
 def run_scan(config:dict, plugin_manager:object) -> dict:
     """
+    Run Scan
     Initializes mass scan and returns a scan result object contaning metadata and results.
     :param config: Configuration hash map containing all passed in scanning parameters.
+    :param plugin_manager: Used to support any plugins necessary at this stage
     :return: Hash map containing metadata and individual scan results.
     :rtype: dict
     """
@@ -48,7 +54,7 @@ def run_scan(config:dict, plugin_manager:object) -> dict:
 
             # Print current site number being scanned if verbose or debug mode is active
             if config['verbose']:
-                print(f"[PyHund:Scan ~]({uname}):: Scanning site #({site['name']})", end="\r")
+                print(f"[PyHund:Scan ~]({uname}):: Scanning site @({site['name']})", end="\r")
 
             # Scan and parse site data then add to results for current user
             result:list = scan_site_verify(site, uname)
@@ -69,7 +75,7 @@ def run_scan(config:dict, plugin_manager:object) -> dict:
             # This allows plugins to modify the scan results for the current user
             # and perform any additional processing
             # Note: The handle_scan method should return the modified scan results
-            for module in plugin_manager.plugins_index:
+            for module in plugin_manager.plugins_index: #type: ignore
                 if 'disabled' not in module.settings:
                     result = module.handle_scan(scan_results=result)
 
