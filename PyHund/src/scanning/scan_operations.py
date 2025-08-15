@@ -1,7 +1,11 @@
+# [PyHund/Scanning/ScanOperations ~]
+# Contains all core functions and variables needed to scan through all provided sites
 
+# === Imports
 from requests import get, RequestException
 from re import match
 
+# === Variables
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
@@ -12,7 +16,8 @@ HEADERS = {
     "upgrade-insecure-requests": "1"
 }
 
-def scan_request(url:str, headers:dict = HEADERS, cookies:dict = None) -> dict:
+# === Functions
+def scan_request(url:str, headers:dict = HEADERS, cookies:dict = {}) -> dict:
     """
     Scan Request
     Makes a GET request to specified URL and returns all response data.
@@ -26,6 +31,7 @@ def scan_request(url:str, headers:dict = HEADERS, cookies:dict = None) -> dict:
     try:
         # Attempt to make GET request to specified URL with provided headers and cookies
         data = get(url, headers=headers, cookies=cookies)
+        
         # Return response data including status code, content, and URL
         return {
             "status_code": data.status_code,
@@ -42,7 +48,7 @@ def scan_request(url:str, headers:dict = HEADERS, cookies:dict = None) -> dict:
         }
     
 
-def scan_validate_response(site_data:dict, validation_method:str, validation_key:str | int) -> str:
+def scan_validate_response(site_data:dict, validation_method:str, validation_key:str) -> str:
     """
     Scanning Validate Response
     Validates the response page is in fact a user page and not a generic error page or redirect the is providing a 200 response.
@@ -59,6 +65,8 @@ def scan_validate_response(site_data:dict, validation_method:str, validation_key
 
     match validation_method.lower():
         case "regex":
+
+            # TODO: Fix Regex
             pattern:str = validation_key.lstrip('~')
 
             if match(pattern, site_data['content']) != None:
@@ -70,11 +78,13 @@ def scan_validate_response(site_data:dict, validation_method:str, validation_key
         case "url":
             return ("Valid" if validation_key[1:] not in site_data['url'] else "Invalid") if validation_key.startswith('~') else ("Valid" if validation_key in site_data['url'] else "Invalid")
         case _:
+            # TODO: Allow for plugin validation
             return "Unknown"
 
 
 def scan_site_verify(site:dict, uname:str) -> list:
     """
+    Scan Site & Verify
     Scans the provided site to harvest any necessary information and verifies the site response.
     :param site: Site data from manifest containing all necessary information to scan the site.
     :param uname: Username to scan for on the site.
@@ -83,7 +93,7 @@ def scan_site_verify(site:dict, uname:str) -> list:
     """
 
     # Attempt to retrieve the site data
-    site_data:dict = scan_request(site['url'].format(uname), headers=site.get('headers', HEADERS), cookies=site.get('cookies', None))
+    site_data:dict = scan_request(site['url'].format(uname), headers=site.get('headers', HEADERS), cookies=site.get('cookies', {})) 
 
     return [
         site['name'],
