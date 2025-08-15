@@ -1,27 +1,43 @@
+# [PyHund/Util ~]
+# Contains all misc utility functions and variables for 
+# PyHund Project
 
+# === Imports
 from socket import create_connection
 from json import load
 from os.path import abspath
 from sys import exit
 
+# === Global Vars
 MANIFEST_PATH:str = abspath(__file__).split('/src')[0]+"/resources/site_manifest.json"
 
 # Version data: ('Version Number', 'Release Date')
 # Revision: 7 is static and will not change
 VERSION = ('1.0', '2025-7')
 
+
+# === Functions
 def get_version() -> str:
+    """
+    Get Version
+    Gets the version data for current version of PyHund.
+    :return: String formatted with version data
+    :rtype: str
+    """
     return "[PyHund:Version ~]:: \nRevision: 7\nVersion:  {}\nRelease:  {}\nAuthors:  Nate Mount\n".format(*VERSION)
 
-def check_internet_conn(refernce_bundle:tuple[str,int] = ('8.8.8.8',53), timeout:int = 5):
+def check_internet_conn(reference_bundle:tuple[str,int] = ('8.8.8.8',53), timeout:int = 5) -> bool:
     """
     Check Internet Connection
-    Used to ensure a stable connection prior to attempting to run scans
-    :param config: Configuration object
+    Used to ensure a stable connection prior to attempting to run scans.
+    :param reference_bundle: IP / Port pairing used to test internet connection [Default = (8.8.8.8:53)]
+    :param timeour: Integer timeout set to prevent long waits for connection [Default = 3]
+    :return: True if internet connection is established, False otherwise
+    :rtype: bool
     """
     
     try:
-        create_connection(refernce_bundle, timeout=timeout)
+        create_connection(reference_bundle, timeout=timeout)
         return True
     except OSError:
         return False
@@ -44,7 +60,8 @@ def load_maifest(config:dict) -> tuple[dict, list[dict]]:
 
 def display_help() -> None:
     """
-    Used to display the help message for the program
+    Display Help
+    Used to display the help message for the program, then exit.
     """
     print("""
 [PyHund:Help ~]::
