@@ -1,26 +1,32 @@
 # [PyHund-R7.1:init ~]
 # Initialization file for the PyHund package.
 
-# Imports
+# === Imports
 from src.argparse import parse_args
 from src.scanning import run_scan
 from src.plugin_manager import PluginManager
 from src.output_handler import handle_scan_output
 from src.util import check_internet_conn, load_maifest
 
+# === Functions
 def run():
+    """
+    Run
+    Main execution function of PyHund
+    """
     
     # Derive configuration from command line arguments
-    config:dict[str, any] = parse_args()
+    config:dict[str, any] = parse_args() # type: ignore
 
     # If verbose or debug mode active, display version and config info
     if config['verbose'] or config['debug']:
         print("\n[PyHund:Config ~]:: Configuration Data")
         print("---------------------------------------")
         [ print("{:<16}:\t {}".format(k.capitalize(), v)) for k, v in config.items() ]
-        print("Manifest Version:\t {}".format(load_maifest(config=config)[1]['version']))
+        print("Manifest Version:\t {}".format(load_maifest(config=config)[1]['version'])) # type: ignore
 
-    plugin_manager = PluginManager(config=config)
+    # :)
+    plugin_manager:PluginManager = PluginManager(config=config)
 
     # Test internet connection prior to execution
     if not check_internet_conn():
