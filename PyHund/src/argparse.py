@@ -4,9 +4,8 @@
 # === Imports
 from sys import argv, exit
 from yaml import safe_load
-from os.path import abspath
 
-from src.util import display_help, get_version
+from src.util import display_help, get_version, RESOURCE_PATH
 
 # === Functions
 def parse_args() -> dict:
@@ -30,11 +29,10 @@ def parse_args() -> dict:
     }
 
     # Load in static configuration data from config.yaml file
-    static_config_data = safe_load(open(abspath(__file__).split('/src')[0]+'/resources/config.yaml', 'r'))
+    static_config_data = safe_load(open(RESOURCE_PATH+'config.yaml', 'r'))
     
     # If configurations were implemented in static config for the user then apply them prior to command line arguments
-    if static_config_data['BaseConfig']:
-        parsed_config.update(static_config_data['BaseConfig'])
+    if static_config_data['BaseConfig']: parsed_config.update(static_config_data['BaseConfig'])
     
     # Parsing command line arguments
     for arg in argv[1:]:
@@ -43,12 +41,8 @@ def parse_args() -> dict:
         if arg.startswith('-') or arg.startswith('/'):
             arg = arg.lstrip('-').lstrip('/')
 
-            # If requesting help then display and exit
-            if arg.split(':')[0] == "help": display_help()
-
-            if arg.split(':')[0] == "version":
-                print(get_version())
-                exit(0)
+            # If requesting atomic action, execute prior to run then exit
+            check_atomic_arg(arg.split(':')[0])
 
             # Do not allow users to attempt to set unames via options, only via command line arguments
             if arg.split(':')[0] != "unames":
@@ -61,7 +55,11 @@ def parse_args() -> dict:
 
     # Implement Plugin Configs from static config file
     if static_config_data['PluginConfig']:
-        [ parsed_config['plugin-config'].update({plugin: static_config_data['PluginConfig'][plugin]}) for plugin in static_config_data['PluginConfig'] ]
+        [ 
+            parsed_config['plugin-config'].update(
+                {plugin: static_config_data['PluginConfig'][plugin]}
+            ) for plugin in static_config_data['PluginConfig'] 
+        ]
 
     # Updating plugin config if configuration is provided
     parsed_config['plugin-config'] = {k.split('=')[0]: k.split('=')[1].split(',') for k in parsed_config['plugin-config'].split('+') if '=' in k}
@@ -81,3 +79,18 @@ def parse_args() -> dict:
         exit(1)
 
     return parsed_config
+
+def check_atomic_arg(arg:str) -> None:
+    """
+    Check Atomic Argument
+    Used to see if current argument requires an 'atomic' action or any action that 
+    will execute prior to script true start then exit.
+    :param arg: String argument to be checked
+    """
+
+    match arg:
+        case "help":
+            display_help()
+        case "version":
+            print(get_version()); exit(0)
+        case _: pass

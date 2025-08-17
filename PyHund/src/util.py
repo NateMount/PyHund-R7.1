@@ -9,7 +9,7 @@ from os.path import abspath
 from sys import exit
 
 # === Global Vars
-MANIFEST_PATH:str = abspath(__file__).split('/src')[0]+"/resources/site_manifest.json"
+RESOURCE_PATH:str = abspath(__file__).split('/src')[0]+"/resources/"
 
 # Version data: ('Version Number', 'Release Date')
 # Revision: 7 is static and will not change
@@ -54,7 +54,7 @@ def load_maifest(config:dict) -> tuple[dict, list[dict]]:
     try:
         data:dict = load(open(config['manifest'],'r'))
     except (KeyError, FileNotFoundError):
-        data:dict = load(open(MANIFEST_PATH, 'r'))
+        data:dict = load(open(RESOURCE_PATH+"site_manifest.json", 'r'))
     
     return data['SiteIndex'], data['Meta']
 
