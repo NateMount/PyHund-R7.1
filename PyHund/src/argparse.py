@@ -62,16 +62,13 @@ def parse_args() -> dict:
         ]
 
     # Updating plugin config if configuration is provided
-    parsed_config['plugin-config'] = {k.split('=')[0]: k.split('=')[1].split(',') for k in parsed_config['plugin-config'].split('+') if '=' in k}
+    parsed_config['plugin-config'] = {
+        k.split('=')[0]: k.split('=')[1].split(',') for k in parsed_config['plugin-config'].split('+') if '=' in k
+    }
 
     # If user has provided stdin option then read usernames from the specified file
     if 'stdin' in parsed_config.keys():
-        try:
-            with open(parsed_config['stdin'], 'r') as f:
-                [ parsed_config['unames'].append(name.strip()) for name in f.read().split('\n') if name.strip() and not name.startswith('#') ]
-        except FileNotFoundError:
-            # Program will attempt to continue executing with usernames provided from command line arguments
-            print(f"[PyHund:Warn ~]:: File '{parsed_config['stdin']}' not found, please provide a valid file path, defaulting to unames from command line arguments")
+        [parsed_config['unames'].append(uname) for uname in handle_stdin_reroute(parsed_config=parsed_config)]
 
     # If no usernames are provided, no operations can be performed, so exit
     if len(parsed_config['unames']) == 0:
@@ -94,3 +91,23 @@ def check_atomic_arg(arg:str) -> None:
         case "version":
             print(get_version()); exit(0)
         case _: pass
+
+def handle_stdin_reroute(parsed_config:dict) -> list[str]:
+    """
+    Handle STDIN Re-Route
+    Used when '/stdin' is passed as a commandline arg, enabling program to injest
+    files provided by user for username input
+    :param parsed_config: Current configuration derived from argument parsing
+    :return: List of all usernames parsed from file
+    :rtype: List[Strings]
+    """
+    
+    try:
+        with open(parsed_config['stdin'], 'r') as f:
+            return list([ 
+                name.strip() for name in f.read().split('\n') if name.strip() and not name.startswith('#') 
+            ])
+    except FileNotFoundError:
+        # Program will attempt to continue executing with usernames provided from command line arguments
+        print(f"[PyHund:Warn ~]:: File '{parsed_config['stdin']}' not found, please provide a valid file path, defaulting to unames from command line arguments")
+        return []
